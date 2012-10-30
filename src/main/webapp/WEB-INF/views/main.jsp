@@ -7,9 +7,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Spring Activiti App</title>
 </head>
-<frameset rows="25,*" frameborder="yes" border="1">
+<frameset rows="80,*" frameborder="yes" border="1" framespacing="2">
 	<frame src="${ctx }/top.jsp" name="top" >
-	<frameset cols="25,*" frameborder="yes" border="1">
+	<frameset cols="120,*" frameborder="yes" border="1" framespacing="2">
 		<frame src="${ctx }/left.jsp" name="left">
 		<frame src="${ctx }/work.jsp" name="main">
 	</frameset>
