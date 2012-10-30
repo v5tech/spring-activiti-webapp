@@ -25,6 +25,11 @@
 	
 	<!-- 设置默认的页面  跳转到login.jsp -->
 	<mvc:view-controller path="/" view-name="redirect:/account/login/"/>
+	<!-- 放行静态资源 -->
+	<mvc:resources location="/images/" mapping="/images/**"/>
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/style/" mapping="/style/**"/>
+	<mvc:resources location="/upload/" mapping="/upload/**"/>
 	
 	<!-- jsp视图 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
