@@ -1,9 +1,12 @@
 package org.activiti.web.simple.webapp.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.activiti.engine.identity.Group;
 import org.activiti.web.simple.webapp.model.User;
 import org.activiti.web.simple.webapp.service.AccountService;
 import org.springframework.stereotype.Controller;
@@ -43,20 +46,78 @@ public class AccountController {
 	@RequestMapping(value="/loginin",method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView loginin(@RequestParam("username")String username,@RequestParam("password")String password,HttpServletRequest request, HttpServletResponse response){
 		ModelAndView view=new ModelAndView();
-		boolean b = accountService.checkPassword(username, password);
-		String forword=b?"main":"login";
+		String forword="";
 		String message="";
-		if(b){
-			User user=new User();
-			user.setId(username);
-			user.setPassword(password);
-			request.getSession().setAttribute("loginuser", user);
+		if((username!=null&&username.length()>0)&&(password!=null&&password.length()>0)){
+			boolean b = accountService.checkPassword(username, password);
+			forword=b?"main":"login";
+			if(b){
+				User user=new User();
+				user.setId(username);
+				user.setPassword(password);
+				request.getSession().setAttribute("loginuser", user);
+			}else{
+				message="用户名或密码错误!";
+			}
 		}else{
-			message="用户名或密码错误!";
+			forword="login";
 		}
 		view.setViewName(forword);
 		view.addObject("message", message);
 		return view;
+	}
+	
+	
+	
+	/**
+	 * 跳转到用户管理页面
+	 * @return
+	 */
+	@RequestMapping(value="/userwork",method={RequestMethod.POST,RequestMethod.GET})
+	public String userwork(){
+		return "user/userwork";
+	}
+	
+	
+	
+	/**
+	 * 跳转到用户管理页面
+	 * @return
+	 */
+	@RequestMapping(value="/groupwork",method={RequestMethod.POST,RequestMethod.GET})
+	public String groupwork(){
+		return "group/groupwork";
+	}
+	
+	/**
+	 * 查看用户列表
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value="/userlist",method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView userlist(HttpServletRequest request, HttpServletResponse response){
+		List<org.activiti.engine.identity.User> listuser = accountService.createUserQuery().list();
+		ModelAndView modelAndView=new ModelAndView();
+		modelAndView.setViewName("user/listuser");
+		modelAndView.addObject("listuser", listuser);
+		return modelAndView;
+	}
+	
+	
+	/**
+	 * 查看组员列表
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value="/grouplist",method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView grouplist(HttpServletRequest request, HttpServletResponse response){
+		List<Group> listgroup = accountService.createGroupQuery().list();
+		ModelAndView modelAndView=new ModelAndView();
+		modelAndView.setViewName("group/listgroup");
+		modelAndView.addObject("listgroup", listgroup);
+		return modelAndView;
 	}
 	
 }

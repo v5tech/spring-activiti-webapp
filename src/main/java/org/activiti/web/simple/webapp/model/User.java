@@ -3,44 +3,50 @@ package org.activiti.web.simple.webapp.model;
 @SuppressWarnings("serial")
 public class User implements org.activiti.engine.identity.User {
 
+	private String id;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String password;
+
 	public String getId() {
-		return null;
+		return id;
 	}
 
 	public void setId(String id) {
-
+		this.id = id;
 	}
 
 	public String getFirstName() {
-		return null;
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
-
-	}
-
-	public void setLastName(String lastName) {
-
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
-		return null;
+		return lastName;
 	}
 
-	public void setEmail(String email) {
-
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
-		return null;
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
-		return null;
+		return password;
 	}
 
-	public void setPassword(String string) {
-
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
