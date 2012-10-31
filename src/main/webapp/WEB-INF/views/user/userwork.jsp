@@ -9,7 +9,7 @@
 <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-<a href="${ctx }/account/userlist" target="main">查看用户列表</a>
+<a href="${ctx }/userlist" target="main">查看用户列表</a>
 <a>新增用户</a>
 </body>
 </html>

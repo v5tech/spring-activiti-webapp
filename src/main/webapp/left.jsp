@@ -9,8 +9,8 @@
 <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-<a href="${ctx }/account/userwork/" target="main">用户管理</a><br/>
-<a href="${ctx }/account/groupwork/" target="main">组管理</a><br/>
+<a href="${ctx }/userwork/" target="main">用户管理</a><br/>
+<a href="${ctx }/groupwork/" target="main">组管理</a><br/>
 <a href="${ctx }/workflow/toupload/" target="main">上传流程定义</a><br/>
 </body>
 </html>

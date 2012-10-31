@@ -9,7 +9,7 @@
 <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-<a href="${ctx }/account/grouplist" target="main">查看组列表</a>
+<a href="${ctx }/grouplist" target="main">查看组列表</a>
 <a>新增组</a>
 </body>
 </html>

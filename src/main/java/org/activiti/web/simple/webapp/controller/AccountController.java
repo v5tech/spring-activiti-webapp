@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/account")
 public class AccountController {
 
 	@Resource(name="accountServiceImpl")
@@ -35,6 +35,19 @@ public class AccountController {
 		return "login";
 	}
 	
+	
+	
+	/**
+	 * 跳转到登录页面
+	 * @return
+	 */
+	@RequestMapping(value="/main",method={RequestMethod.POST,RequestMethod.GET})
+	public String main(){
+		return "main";
+	}
+	
+	
+	
 	/**
 	 * 执行用户登录
 	 * @param username接受表单提交过来的用户名
@@ -44,27 +57,26 @@ public class AccountController {
 	 * @return
 	 */
 	@RequestMapping(value="/loginin",method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView loginin(@RequestParam("username")String username,@RequestParam("password")String password,HttpServletRequest request, HttpServletResponse response){
-		ModelAndView view=new ModelAndView();
+	public String loginin(@RequestParam("username")String username,@RequestParam("password")String password,HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes){
 		String forword="";
-		String message="";
 		if((username!=null&&username.length()>0)&&(password!=null&&password.length()>0)){
 			boolean b = accountService.checkPassword(username, password);
-			forword=b?"main":"login";
 			if(b){
 				User user=new User();
 				user.setId(username);
 				user.setPassword(password);
 				request.getSession().setAttribute("loginuser", user);
+				redirectAttributes.addFlashAttribute("message", "登录成功!");
+				forword="/main";//main.jsp
 			}else{
-				message="用户名或密码错误!";
+				redirectAttributes.addFlashAttribute("message", "用户名或密码错误!");
+				forword="/login";//login.jsp
 			}
 		}else{
-			forword="login";
+			forword="/login";//login.jsp
+			redirectAttributes.addFlashAttribute("message", "用户名或密码不能为空!");
 		}
-		view.setViewName(forword);
-		view.addObject("message", message);
-		return view;
+		return "redirect:"+forword;
 	}
 	
 	

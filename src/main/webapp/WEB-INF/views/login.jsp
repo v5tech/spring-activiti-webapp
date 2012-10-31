@@ -14,7 +14,7 @@
     	${message }
         <fieldset>
         	<legend>用户登录</legend>
-        	<form action="${ctx }/account/loginin/" method="post">
+        	<form action="${ctx }/loginin/" method="post">
         		用户名:<input name="username" type="text"/><br/>
         		密&nbsp;&nbsp;码:<input name="password" type="password"/><br/>
         		<input name="submit" type="submit" value="登录"/>
