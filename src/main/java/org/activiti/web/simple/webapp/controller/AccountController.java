@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/account")
 public class AccountController {
-	
+
 	@Resource(name="accountServiceImpl")
 	private AccountService accountService;
 	
@@ -41,19 +41,22 @@ public class AccountController {
 	 * @return
 	 */
 	@RequestMapping(value="/loginin",method={RequestMethod.POST,RequestMethod.GET})
-	public String loginin(@RequestParam("username")String username,@RequestParam("password")String password,HttpServletRequest request, HttpServletResponse response){
-		System.out.println(username);
-		System.out.println(password);
+	public ModelAndView loginin(@RequestParam("username")String username,@RequestParam("password")String password,HttpServletRequest request, HttpServletResponse response){
+		ModelAndView view=new ModelAndView();
 		boolean b = accountService.checkPassword(username, password);
 		String forword=b?"main":"login";
-		
-		User user=new User();
-		user.setId(username);
-		user.setPassword(password);
-		request.getSession().setAttribute("loginuser", user);
-		
-		return forword;
+		String message="";
+		if(b){
+			User user=new User();
+			user.setId(username);
+			user.setPassword(password);
+			request.getSession().setAttribute("loginuser", user);
+		}else{
+			message="用户名或密码错误!";
+		}
+		view.setViewName(forword);
+		view.addObject("message", message);
+		return view;
 	}
-	
 	
 }

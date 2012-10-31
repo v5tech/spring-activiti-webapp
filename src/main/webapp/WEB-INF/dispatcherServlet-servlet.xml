@@ -14,6 +14,7 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 	
 	<mvc:annotation-driven/>
+	
 	<context:annotation-config/>
 	<context:component-scan base-package="org.activiti.web.simple.webapp.controller">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -23,8 +24,9 @@
 		<property name="basename" value="views"></property>
 	</bean>
 	
-	<!-- 设置默认的页面  跳转到login.jsp -->
-	<mvc:view-controller path="/" view-name="redirect:/account/login/"/>
+	<!-- 设置默认的页面  请求转发到login.jsp -->
+	<mvc:view-controller path="/" view-name="login"/>
+	
 	<!-- 放行静态资源 -->
 	<mvc:resources location="/images/" mapping="/images/**"/>
 	<mvc:resources location="/js/" mapping="/js/**"/>
