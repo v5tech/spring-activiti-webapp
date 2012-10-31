@@ -2,12 +2,26 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="process1" name="process1">
     <startEvent id="startevent" name="Start" activiti:initiator="applyUserId"></startEvent>
-    <userTask id="deptLeaderAudit" name="部门领导审批" default="" activiti:candidateGroups="deptLeader"></userTask>
+    <userTask id="deptLeaderAudit" name="部门领导审批" activiti:candidateGroups="deptLeader"></userTask>
     <userTask id="hrAudit" name="人事审批" activiti:candidateGroups="hr"></userTask>
     <userTask id="reportBack" name="销假" activiti:assignee="${applyUserId}"></userTask>
     <userTask id="modifyApply" name="调整申请" activiti:assignee="${applyUserId}"></userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <exclusiveGateway id="exclusivegateway4" name="Exclusive Gateway"></exclusiveGateway>
+    <serviceTask id="mailMsg" name="邮件通知" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to" expression="${to}"></activiti:field>
+        <activiti:field name="from" expression="${from}"></activiti:field>
+        <activiti:field name="subject" expression="请假流程回执单"></activiti:field>
+        <activiti:field name="charset" expression="utf-8"></activiti:field>
+        <activiti:field name="html">
+          <activiti:expression><![CDATA[${applyUserId},你好!你的请假流程已处理完毕!]]></activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
     <sequenceFlow id="flow1" name="" sourceRef="startevent" targetRef="deptLeaderAudit"></sequenceFlow>
     <sequenceFlow id="flow3" name="" sourceRef="deptLeaderAudit" targetRef="exclusivegateway1"></sequenceFlow>
     <sequenceFlow id="flow4" name="同意" sourceRef="exclusivegateway1" targetRef="hrAudit">
@@ -23,9 +37,6 @@
     <sequenceFlow id="flow8" name="不同意" sourceRef="exclusivegateway2" targetRef="modifyApply">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!hrPass}]]></conditionExpression>
     </sequenceFlow>
-    <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
-    <endEvent id="endevent1" name="End"></endEvent>
-    <exclusiveGateway id="exclusivegateway4" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow9" name="" sourceRef="reportBack" targetRef="exclusivegateway4"></sequenceFlow>
     <sequenceFlow id="flow10" name="是" sourceRef="exclusivegateway4" targetRef="mailMsg">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${notify}]]></conditionExpression>
@@ -41,9 +52,6 @@
     <sequenceFlow id="flow15" name="重新申请" sourceRef="exclusivegateway3" targetRef="deptLeaderAudit">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${reApply}]]></conditionExpression>
     </sequenceFlow>
-    <serviceTask id="mailMsg" name="邮件通知" activiti:type="mail">
-      <extensionElements></extensionElements>
-    </serviceTask>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_process1">
     <bpmndi:BPMNPlane bpmnElement="process1" id="BPMNPlane_process1">

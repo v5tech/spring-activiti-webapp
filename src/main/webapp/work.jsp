@@ -9,6 +9,6 @@
 <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-<h1>work</h1>
+<h1>${message }</h1>
 </body>
 </html>
