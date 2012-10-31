@@ -10,7 +10,7 @@
     </head>
     <body>
         <h1>上传工作流程定义文件</h1>
-        <form action="${ctx }/workflow/fileupload/" method="post" enctype="multipart/form-data">
+        <form action="${ctx }/workflow/fileupload/" method="post" enctype="multipart/form-data" target="_top">
         	<table>
 				<tr>
 					<td>上传者:</td>
