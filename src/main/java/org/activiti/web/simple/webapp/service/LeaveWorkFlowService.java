@@ -20,10 +20,11 @@ public interface LeaveWorkFlowService {
 	
 	/**
 	 * 根据用户Id查询待办任务列表
-	 * @param userid
+	 * @param userid 用户id
+	 * @param processDefinitionKey 流程定义的key
 	 * @return
 	 */
-	public List<Leave> findTask(String userid);
+	public List<Leave> findTask(String userid,String processDefinitionKey);
 	
 
 	/**

@@ -71,11 +71,12 @@ public class LeaveWorkFlowServiceImpl implements LeaveWorkFlowService {
 	
 	/**
 	 * 根据用户Id查询待办任务列表
-	 * @param userid 用户名
+	 * @param userid 用户id
+	 * @param processDefinitionKey 流程定义的key
 	 * @return
 	 */
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<Leave> findTask(String userid){
+	public List<Leave> findTask(String userid,String processDefinitionKey){
 
 		//存放当前用户的所有任务
 		List<Task> tasks=new ArrayList<Task>();
@@ -85,9 +86,9 @@ public class LeaveWorkFlowServiceImpl implements LeaveWorkFlowService {
 		
 		
 		//根据当前用户的id查询代办任务列表(已经签收)
-		List<Task> taskAssignees = taskService.createTaskQuery().taskAssignee(userid).orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
+		List<Task> taskAssignees = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskAssignee(userid).orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
 		//根据当前用户id查询未签收的任务列表
-		List<Task> taskCandidates = taskService.createTaskQuery().taskCandidateUser(userid).orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
+		List<Task> taskCandidates = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskCandidateUser(userid).orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
 		
 		tasks.addAll(taskAssignees);//添加已签收贮备执行的任务
 		tasks.addAll(taskCandidates);//添加还未签收的任务
@@ -107,7 +108,7 @@ public class LeaveWorkFlowServiceImpl implements LeaveWorkFlowService {
 			leave.setTask(task);
 			leave.setProcessInstance(processInstance);
 			leave.setProcessInstanceId(processInstance.getId());
-			leave.setProcessDefinition(repositoryService.createProcessDefinitionQuery().processDefinitionId(processInstance.getProcessDefinitionId()).singleResult());
+			leave.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
 			
 			leaves.add(leave);
 		}
@@ -136,8 +137,13 @@ public class LeaveWorkFlowServiceImpl implements LeaveWorkFlowService {
 			leave.setProcessInstance(processInstance);
 			leave.setProcessInstanceId(processInstance.getId());
 			leave.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
-			leaves.add(leave);
 			
+			//设置当前任务信息
+			//根据流程实例id,按照任务创建时间降序排列,查询一条任务信息
+			List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().desc().listPage(0, 1);
+			leave.setTask(tasks.get(0));
+			
+			leaves.add(leave);
 		}
 		
 		return leaves;

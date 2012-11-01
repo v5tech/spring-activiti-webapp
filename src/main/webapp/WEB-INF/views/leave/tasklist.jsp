@@ -11,9 +11,9 @@
 <title>待办任务列表</title>
 </head>
 <body>
-<table width="100%" class="need-border">
+<table width="100%" border="1" style="border-collapse: collapse;border-style: solid;border-color: maroon;">
 <thead>
-	<tr>
+	<tr align="center">
 		<th>假种</th>
 		<th>申请人</th>
 		<th>申请时间</th>
@@ -26,10 +26,10 @@
 	</tr>
 </thead>
 <tbody>
-	<c:forEach items="${leaves }" var="leave">
+	<c:forEach items="${tasklist }" var="leave">
 		<c:set var="task" value="${leave.task }" />
 		<c:set var="pi" value="${leave.processInstance }" />
-		<tr id="${leave.id }" tid="${task.id }">
+		<tr id="${leave.id }" tid="${task.id }" align="center">
 			<td>${leave.leaveType }</td>
 			<td>${leave.userId }</td>
 			<td>${leave.applyTime }</td>

@@ -27,7 +27,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -110,13 +109,13 @@ public class LeaveController {
 				redirectAttributes.addFlashAttribute("message", "流程已启动，流程ID：" + processInstance.getId());
 			} catch (ActivitiException e) {
 				if (e.getMessage().indexOf("no processes deployed with key") != -1) {
-					redirectAttributes.addFlashAttribute("error", "没有部署流程");
+					redirectAttributes.addFlashAttribute("message", "没有部署流程");
 					return "redirect:/workflow/toupload";
 				} else {
-					redirectAttributes.addFlashAttribute("error", "系统内部错误！");
+					redirectAttributes.addFlashAttribute("message", "系统内部错误！");
 				}
 			} catch (Exception e) {
-				redirectAttributes.addFlashAttribute("error", "系统内部错误！");
+				redirectAttributes.addFlashAttribute("message", "系统内部错误！");
 			}
 		}else{
 			return "redirect:/login";//跳转到登录界面
@@ -130,10 +129,11 @@ public class LeaveController {
 	 * @param userid
 	 * @return
 	 */
-	@RequestMapping(value="/task/list/{userid}",method={RequestMethod.GET})
-	public ModelAndView findTask(@PathVariable("userid")String userid,HttpServletRequest request, HttpServletResponse response){
+	@RequestMapping(value="/task/list",method={RequestMethod.GET})
+	public ModelAndView findTask(HttpServletRequest request, HttpServletResponse response,HttpSession session){
 		ModelAndView modelAndView=new ModelAndView("leave/tasklist");
-		List<Leave> tasklist = leaveWorkFlowService.findTask(userid);
+		User user=(User) session.getAttribute("loginuser");
+		List<Leave> tasklist = leaveWorkFlowService.findTask(user.getId(),"leave");
 		modelAndView.addObject("tasklist", tasklist);
 		return modelAndView;
 	}

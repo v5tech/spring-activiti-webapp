@@ -10,7 +10,7 @@
     </head>
     <body>
         <h1>上传工作流程定义文件</h1>
-        ${message }
+        <span style="color: red;font-weight: bold;">${message }</span>
         <form action="${ctx }/workflow/deploy/" method="post" enctype="multipart/form-data" target="main">
         	<table>
 				<tr>

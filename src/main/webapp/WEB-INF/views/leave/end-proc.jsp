@@ -11,9 +11,9 @@
 <title>已经结束的流程实例</title>
 </head>
 <body>
-<table width="100%" class="need-border">
+<table width="100%" border="1" style="border-collapse: collapse;border-style: solid;border-color: maroon;">
 <thead>
-	<tr>
+	<tr align="center">
 		<th>假种</th>
 		<th>申请人</th>
 		<th>申请时间</th>
@@ -28,9 +28,9 @@
 	</tr>
 </thead>
 <tbody>
-	<c:forEach items="${leaves }" var="leave">
+	<c:forEach items="${endprocess }" var="leave">
 		<c:set var="hpi" value="${leave.historicProcessInstance }" />
-		<tr id="${leave.id }" tid="${task.id }">
+		<tr id="${leave.id }" tid="${task.id }" align="center">
 			<td>${leave.leaveType }</td>
 			<td>${leave.userId }</td>
 			<td>${leave.applyTime }</td>
