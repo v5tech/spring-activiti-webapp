@@ -12,7 +12,13 @@
 <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-<img alt="activiti" src="${ctx }/images/activiti_logo.png"><font size="28" style="font-weight: bold;">Activiti整合Spring工作流(请假流程示例)</font>
+<img alt="activiti" src="${ctx }/images/activiti_logo.png"><font size="22" style="font-weight: bold;">Activiti整合Spring工作流(请假流程示例)</font>
 ${loginuser.id },<%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) %>
+<c:if test="${empty loginuser.id}" var="islogin">
+<a href="${ctx }/login" target="_top">登录</a>
+</c:if>
+<c:if test="${!islogin}">
+<a href="${ctx }/loginout" target="_top">退出</a>
+</c:if>
 </body>
 </html>

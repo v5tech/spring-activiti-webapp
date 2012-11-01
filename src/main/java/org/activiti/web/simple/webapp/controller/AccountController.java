@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.activiti.engine.identity.Group;
 import org.activiti.web.simple.webapp.model.User;
@@ -38,7 +39,19 @@ public class AccountController {
 	
 	
 	/**
-	 * 跳转到登录页面
+	 * 退出
+	 * @return
+	 */
+	@RequestMapping(value="/loginout",method={RequestMethod.POST,RequestMethod.GET})
+	public String loginout(HttpSession session){
+		session.removeAttribute("loginuser");
+		return "redirect:/login";
+	}
+	
+	
+	
+	/**
+	 * 跳转到主页面
 	 * @return
 	 */
 	@RequestMapping(value="/main",method={RequestMethod.POST,RequestMethod.GET})

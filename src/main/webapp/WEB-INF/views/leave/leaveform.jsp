@@ -11,7 +11,7 @@
 <title>请假申请</title>
 <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
 <link href="${ctx }/js/common/plugins/jui/extends/timepicker/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
-<script src="${ctx }/js/common/jquery.js" type="text/javascript"></script>
+<script src="${ctx }/js/common/jquery-1.7.1.js" type="text/javascript"></script>
 <script src="${ctx }/js/common/plugins/jui/jquery-ui.min.js" type="text/javascript"></script>
 <script src="${ctx }/js/common/plugins/jui/extends/timepicker/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
 <script src="${ctx }/js/common/plugins/jui/extends/i18n/jquery-ui-date_time-picker-zh-CN.js" type="text/javascript"></script>
@@ -24,6 +24,7 @@ $(function() {
 </script>
 </head>
 <body>
+${message }
 <form:form id="leaveform" action="${ctx}/leave/start" method="post">
 	<fieldset>
 		<legend><small>请假申请</small></legend>
