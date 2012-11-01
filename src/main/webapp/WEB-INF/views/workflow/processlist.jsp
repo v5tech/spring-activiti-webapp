@@ -12,8 +12,8 @@
 <table border="1" style="border-collapse: collapse;border-style:solid;" width="100%">
 <thead>
 	<tr>
-		<th>ProcessDefinitionId</th>
-		<th>DeploymentId</th>
+		<th>流程定义Id</th>
+		<th>部署Id</th>
 		<th>名称</th>
 		<th>KEY</th>
 		<th>版本号</th>
@@ -27,16 +27,16 @@
 	<c:forEach items="${objects }" var="object">
 		<c:set var="process" value="${object[0] }" />
 		<c:set var="deployment" value="${object[1] }" />
-		<tr>
+		<tr align="center">
 			<td>${process.id }</td>
 			<td>${process.deploymentId }</td>
 			<td>${process.name }</td>
 			<td>${process.key }</td>
 			<td>${process.version }</td>
-			<td><a target="_blank" href='${ctx }/workflow/resource/deployment?deploymentId=${process.deploymentId}&resourceName=${process.resourceName }'>${process.resourceName }</a></td>
-			<td><a target="_blank" href='${ctx }/workflow/resource/deployment?deploymentId=${process.deploymentId}&resourceName=${process.diagramResourceName }'>${process.diagramResourceName }</a></td>
+			<td><a target="_blank" href='${ctx }/workflow/loadResourceByDeployment?deploymentId=${process.deploymentId }&resourceName=${process.resourceName }'>${process.resourceName }</a></td>
+			<td><a target="_blank" href='${ctx }/workflow/loadResourceByDeployment?deploymentId=${process.deploymentId }&resourceName=${process.diagramResourceName }'>${process.diagramResourceName }</a></td>
 			<td>${deployment.deploymentTime }</td>
-			<td><a href='${ctx }/workflow/process/delete?deploymentId=${process.deploymentId}'>删除</a></td>
+			<td><a href='${ctx }/workflow/deleteDeploymentById/${process.deploymentId }' target="main">删除</a></td>
 		</tr>
 	</c:forEach>
 </tbody>

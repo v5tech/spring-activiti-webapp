@@ -12,5 +12,7 @@
 <a href="${ctx }/userwork/" target="main">用户管理</a><br/>
 <a href="${ctx }/groupwork/" target="main">组管理</a><br/>
 <a href="${ctx }/workflow/toupload/" target="main">上传流程定义</a><br/>
+<a href="${ctx }/workflow/processlist/" target="main">查看流程定义</a><br/>
+<a href="${ctx }/leave/form/" target="main">填写请假单</a><br/>
 </body>
 </html>
