@@ -23,10 +23,12 @@ import org.activiti.web.simple.webapp.model.Leave;
 import org.activiti.web.simple.webapp.model.User;
 import org.activiti.web.simple.webapp.service.LeaveService;
 import org.activiti.web.simple.webapp.service.LeaveWorkFlowService;
+import org.activiti.web.simple.webapp.util.Variable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -51,7 +53,6 @@ public class LeaveController {
 	@Resource(name="historyService")
 	private HistoryService historyService;
 	
-	@SuppressWarnings("unused")
 	@Resource(name="taskService")
 	private TaskService taskService;
 	
@@ -168,7 +169,76 @@ public class LeaveController {
 	}
 	
 	
+	/**
+	 * 根据任务Id签收任务
+	 * @param userid
+	 * @return
+	 */
+	@RequestMapping(value="/task/{taskId}/claim",method={RequestMethod.GET})
+	public String claimTask(@PathVariable("taskId")String taskId,HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes,HttpSession session){
+		User user=(User) session.getAttribute("loginuser");
+		taskService.claim(taskId, user.getId());
+		redirectAttributes.addFlashAttribute("message", "任务签收成功!");
+		return "redirect:/leave/task/list";//跳转到待办任务列表
+	}
 	
+	
+	
+	
+	/**
+	 * 根据任务Id完成任务
+	 * @param userid
+	 * @return
+	 */
+	@RequestMapping(value="/task/{taskId}/complete",method={RequestMethod.GET})
+	public String completeTask(@PathVariable("taskId")String taskId,Variable variable,HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes,HttpSession session){
+		String message="";
+		try {
+			Map<String, Object> variables = variable.getVariableMap();
+			
+			taskService.complete(taskId,variables);
+			
+			message="任务执行成功!";
+			
+		} catch (Exception e) {
+			message="任务执行失败!";
+		}
+		
+		redirectAttributes.addFlashAttribute("message", message);
+		
+		return "redirect:/leave/task/list";//跳转到待办任务列表
+	}
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * 获取请假实体
+	 * @param id id
+	 * @return
+	 */
+	@RequestMapping(value="/detail/leave/{id}",method={RequestMethod.GET})
+	public @ResponseBody Leave getLeaveById(@PathVariable("id")String id){
+		Leave leave = leaveService.findById(id);
+		return leave;
+	}
+	
+	/**
+	 * 根据请假id和任务id获取实体
+	 * @param id
+	 * @param taskId
+	 * @return
+	 */
+	@RequestMapping(value="/detail/leave/{id}/{taskId}",method={RequestMethod.GET})
+	public @ResponseBody Leave getLeaveWithVars(@PathVariable("id") String id, @PathVariable("taskId") String taskId){
+		Leave leave = leaveService.findById(id);
+		Map<String, Object> variables = taskService.getVariables(taskId);
+		leave.setVariables(variables);
+		return leave;
+	}
 	
 	
 }

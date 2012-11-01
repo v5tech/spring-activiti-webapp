@@ -11,6 +11,7 @@
 <title>待办任务列表</title>
 </head>
 <body>
+${message }
 <table width="100%" border="1" style="border-collapse: collapse;border-style: solid;border-color: maroon;">
 <thead>
 	<tr align="center">
@@ -42,7 +43,7 @@
 			<td>${pi.suspended ? "已挂起" : "正常" }；<b title='流程版本号'>V: ${leave.processDefinition.version }</b></td>
 			<td>
 				<c:if test="${empty task.assignee }">
-					<a class="claim" href="${ctx }/oa/leave/task/claim/${task.id}">签收</a>
+					<a class="claim" href="${ctx }/leave/task/${task.id}/claim" target="main">签收</a>
 				</c:if>
 				<c:if test="${not empty task.assignee }">
 					<%-- 此处用tkey记录当前节点的名称 --%>
