@@ -28,6 +28,7 @@ public class LeaveServiceImpl implements LeaveService {
 	/**
 	 * 根据id查询实体对象
 	 */
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Leave findById(String id) {
 		return leaveRepository.findOne(Long.parseLong(id));
 	}
