@@ -14,6 +14,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -184,6 +185,15 @@ public class LeaveWorkFlowServiceImpl implements LeaveWorkFlowService {
 	public ProcessDefinition getProcessDefinition(String processDefinitionId) {
 		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
 		return processDefinition;
+	}
+
+
+	public TaskEntity findTaskById(String taskId) throws Exception {
+		TaskEntity task = (TaskEntity) taskService.createTaskQuery().taskId(taskId).singleResult();  
+        if (task == null) {  
+            throw new Exception("任务实例未找到!");  
+        }  
+        return task; 
 	}
 	
 	

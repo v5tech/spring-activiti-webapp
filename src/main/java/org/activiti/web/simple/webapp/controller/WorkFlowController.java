@@ -19,9 +19,11 @@ import org.activiti.engine.ManagementService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.web.simple.webapp.util.ProcessCustomService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -194,6 +196,25 @@ public class WorkFlowController {
 	
 	
 	
-	
+	/**
+	 * 根据任务id查询流程图(跟踪流程图)
+	 * @param taskId 任务id
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/view/{taskId}",method={RequestMethod.GET,RequestMethod.POST})
+	public void viewProcessImageView(@PathVariable("taskId")String taskId,HttpServletRequest request, HttpServletResponse response){
+		InputStream resourceAsStream;
+		try {
+			resourceAsStream = ProcessCustomService.getImageStream(taskId);
+			byte[] byteArray = IOUtils.toByteArray(resourceAsStream);
+			ServletOutputStream servletOutputStream = response.getOutputStream();
+			servletOutputStream.write(byteArray, 0, byteArray.length);
+			servletOutputStream.flush();
+			servletOutputStream.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 	
 }

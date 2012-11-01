@@ -3,6 +3,7 @@ package org.activiti.web.simple.webapp.service;
 import java.util.List;
 import java.util.Map;
 
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.web.simple.webapp.model.Leave;
@@ -49,5 +50,8 @@ public interface LeaveWorkFlowService {
 	 * @return
 	 */
 	public ProcessDefinition getProcessDefinition(String processDefinitionId);
+	
+	
+	public TaskEntity findTaskById(String taskId) throws Exception;
 	
 }
