@@ -48,7 +48,7 @@ ${message }
 					<a class="claim" href="${ctx }/leave/task/${task.id}/claim" target="main">签收</a>
 				</c:if>
 				<c:if test="${not empty task.assignee }">
-					<a class="handle" tkey='${task.taskDefinitionKey }' tname='${task.name }' href="#">办理</a>
+					<a href="${ctx }/leave/detail/leave/${task.id}">办理</a>
 				</c:if>
 			</td>
 		</tr>

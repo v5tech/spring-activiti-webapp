@@ -18,7 +18,9 @@ import org.activiti.engine.ManagementService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.activiti.web.simple.webapp.model.Leave;
 import org.activiti.web.simple.webapp.model.User;
 import org.activiti.web.simple.webapp.service.LeaveService;
@@ -45,7 +47,6 @@ public class LeaveController {
 	@Resource(name="identityService")
 	private IdentityService identityService;
 	
-	@SuppressWarnings("unused")
 	@Resource(name="runtimeService")
 	private RuntimeService runtimeService;
 	
@@ -185,21 +186,40 @@ public class LeaveController {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 根据任务Id完成任务
 	 * @param userid
 	 * @return
 	 */
-	@RequestMapping(value="/task/{taskId}/complete",method={RequestMethod.GET})
+	@RequestMapping(value="/task/{taskId}/complete",method={RequestMethod.GET,RequestMethod.POST})
 	public String completeTask(@PathVariable("taskId")String taskId,Variable variable,HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes,HttpSession session){
 		String message="";
 		try {
 			Map<String, Object> variables = variable.getVariableMap();
-			
 			taskService.complete(taskId,variables);
-			
 			message="任务执行成功!";
-			
 		} catch (Exception e) {
 			message="任务执行失败!";
 		}
@@ -210,17 +230,12 @@ public class LeaveController {
 	}
 	
 	
-	
-	
-	
-	
-	
 	/**
 	 * 获取请假实体
 	 * @param id id
 	 * @return
 	 */
-	@RequestMapping(value="/detail/leave/{id}",method={RequestMethod.GET})
+	@RequestMapping(value="/detail/{id}/leave",method={RequestMethod.GET})
 	public @ResponseBody Leave getLeaveById(@PathVariable("id")String id){
 		Leave leave = leaveService.findById(id);
 		return leave;
@@ -232,12 +247,37 @@ public class LeaveController {
 	 * @param taskId
 	 * @return
 	 */
-	@RequestMapping(value="/detail/leave/{id}/{taskId}",method={RequestMethod.GET})
-	public @ResponseBody Leave getLeaveWithVars(@PathVariable("id") String id, @PathVariable("taskId") String taskId){
-		Leave leave = leaveService.findById(id);
+	@RequestMapping(value="/detail/leave/{taskId}",method={RequestMethod.GET})
+	public ModelAndView getLeaveWithVars(@PathVariable("taskId") String taskId){
+		
+		ModelAndView modelAndView=new ModelAndView("leave/viewform");
+		
+		
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		
+		
+		ExecutionEntity executionEntity=(ExecutionEntity) runtimeService.createExecutionQuery().executionId(task.getExecutionId()).processInstanceId(task.getProcessInstanceId()).singleResult();
+		
+		//获取当前正在执行的节点
+		String activityId = executionEntity.getActivityId();
+		
+		String processInstanceId = task.getProcessInstanceId();
+		
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+		
+		String businessKey = processInstance.getBusinessKey();
+		
+		Leave leave = leaveService.findById(businessKey);
+		
 		Map<String, Object> variables = taskService.getVariables(taskId);
+		
 		leave.setVariables(variables);
-		return leave;
+		
+		modelAndView.addObject("taskId", taskId);
+		modelAndView.addObject("leave", leave);
+		modelAndView.addObject("activityId", activityId);
+		
+		return modelAndView;
 	}
 	
 	
