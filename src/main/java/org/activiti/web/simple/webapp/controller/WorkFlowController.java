@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import javax.annotation.Resource;
@@ -19,19 +21,23 @@ import org.activiti.engine.ManagementService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.RepositoryServiceImpl;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.web.simple.webapp.service.ActivitiWorkFlowService;
+import org.activiti.engine.task.Task;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -39,12 +45,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping(value="/workflow")
 public class WorkFlowController {
-	
-	
-	
-	@Autowired
-	private ActivitiWorkFlowService activitiWorkFlowService;
-	
 	
 	@SuppressWarnings("unused")
 	@Resource(name="identityService")
@@ -57,7 +57,6 @@ public class WorkFlowController {
 	@Resource(name="historyService")
 	private HistoryService historyService;
 	
-	@SuppressWarnings("unused")
 	@Resource(name="taskService")
 	private TaskService taskService;
 	
@@ -232,21 +231,75 @@ public class WorkFlowController {
 	 * @param request
 	 * @param response
 	 */
+	@Deprecated
 	@RequestMapping(value="/view/{taskId}",method={RequestMethod.GET,RequestMethod.POST})
 	public void viewProcessImageView(@PathVariable("taskId")String taskId,HttpServletRequest request, HttpServletResponse response){
 		InputStream resourceAsStream = null;
 		try {
 			
-			resourceAsStream = activitiWorkFlowService.getImageStream(taskId);
+			Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 			
+			String processInstanceId = task.getProcessInstanceId();
+			
+			//根据流程实例id查询流程实例
+			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+			
+			//根据流程定义id查询流程定义
+			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(processInstance.getProcessDefinitionId()).singleResult();
+			
+			String resourceName=processDefinition.getDiagramResourceName();
+			
+			//打开流程资源流
+			resourceAsStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), resourceName);
+			
+			runtimeService.getActiveActivityIds(processInstance.getId());
+			
+			//输出到浏览器
 			byte[] byteArray = IOUtils.toByteArray(resourceAsStream);
 			ServletOutputStream servletOutputStream = response.getOutputStream();
 			servletOutputStream.write(byteArray, 0, byteArray.length);
 			servletOutputStream.flush();
 			servletOutputStream.close();
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+	
+	
+	
+	
+	
+	/**
+	 * 输出跟踪流程信息
+	 * @param processInstanceId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/process/{executionId}/trace/{processInstanceId}",produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody Map<String,Object> traceProcess(@PathVariable("executionId") String executionId,@PathVariable("processInstanceId") String processInstanceId) throws Exception {
+		
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+		
+		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) ((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
+		
+		List<ActivityImpl> activities = processDefinitionEntity.getActivities();
+		
+		Map<String,Object> activityImageInfo=new HashMap<String,Object>();
+		
+		for (ActivityImpl activityImpl : activities) {
+			String id=activityImpl.getId();
+			//判断是否是当前节点
+			if(id.equals(executionId)){
+				activityImageInfo.put("x", activityImpl.getX());
+				activityImageInfo.put("y", activityImpl.getY());
+				activityImageInfo.put("width", activityImpl.getWidth());
+				activityImageInfo.put("height", activityImpl.getHeight());
+				break;//跳出循环
+			}
+		}
+		return activityImageInfo;
+	}
+	
 	
 }

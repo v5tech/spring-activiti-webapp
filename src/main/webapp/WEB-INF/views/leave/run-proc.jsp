@@ -29,14 +29,14 @@
 		<c:forEach items="${runprocess }" var="leave">
 		<c:set var="task" value="${leave.task }" />
 		<c:set var="pi" value="${leave.processInstance }" />
-		<tr id="${leave.id }" tid="${task.id }" align="center">
+		<tr id="${leave.id }" align="center">
 			<td>${leave.leaveType }</td>
 			<td>${leave.userId }</td>
 			<td>${leave.applyTime }</td>
 			<td>${leave.startTime }</td>
 			<td>${leave.endTime }</td>
 			<td>
-				<a class="trace" href='${ctx }/workflow/view/${task.id }/page' pid="${pi.id }" title="点击查看流程图">${task.name }</a>
+				<a class="trace" href='${ctx }/workflow/view/${task.id }/page' title="点击查看流程图">${task.name }</a>
 			</td>
 			<td>${task.createTime }</td>
 			<td>${pi.suspended ? "已挂起" : "正常" }；<b title='流程版本号'>V: ${leave.processDefinition.version }</b></td>
