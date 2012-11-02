@@ -19,11 +19,9 @@ import org.activiti.engine.ManagementService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.web.simple.webapp.util.ProcessCustomService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -171,18 +169,22 @@ public class WorkFlowController {
 	 */
 	@RequestMapping(value="/loadResourceByProcessInstance",method={RequestMethod.GET,RequestMethod.POST})
 	public void loadResourceByProcessInstance(@RequestParam("processInstanceId")String processInstanceId,@RequestParam("resourceType")String resourceType,HttpServletRequest request, HttpServletResponse response){
+		//根据流程实例id查询流程实例
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-		
+		//根据流程定义id查询流程定义
 		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(processInstance.getProcessDefinitionId()).singleResult();
 		
 		String resourceName="";
 		if(resourceType.equals("xml")){
+			//获取流程定义资源名称
 			resourceName=processDefinition.getResourceName();
 		}else if(resourceType.equals("image")){
+			//获取流程图资源名称
 			resourceName=processDefinition.getDiagramResourceName();
 		}
+		//打开流程资源流
 		InputStream resourceAsStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), resourceName);
-		
+		//输出到浏览器
 		try {
 			byte[] byteArray = IOUtils.toByteArray(resourceAsStream);
 			ServletOutputStream servletOutputStream = response.getOutputStream();
@@ -204,9 +206,12 @@ public class WorkFlowController {
 	 */
 	@RequestMapping(value="/view/{taskId}",method={RequestMethod.GET,RequestMethod.POST})
 	public void viewProcessImageView(@PathVariable("taskId")String taskId,HttpServletRequest request, HttpServletResponse response){
-		InputStream resourceAsStream;
+		InputStream resourceAsStream = null;
 		try {
-			resourceAsStream = ProcessCustomService.getImageStream(taskId);
+			
+			
+			
+			
 			byte[] byteArray = IOUtils.toByteArray(resourceAsStream);
 			ServletOutputStream servletOutputStream = response.getOutputStream();
 			servletOutputStream.write(byteArray, 0, byteArray.length);
