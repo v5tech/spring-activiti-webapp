@@ -24,6 +24,7 @@ $(function() {
 </script>
 </head>
 <body>
+<h1>填写请假单</h1>
 ${message }
 <form:form id="leaveform" action="${ctx}/leave/start" method="post">
 	<fieldset>
