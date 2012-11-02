@@ -22,12 +22,12 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.RepositoryServiceImpl;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -57,6 +57,7 @@ public class WorkFlowController {
 	@Resource(name="historyService")
 	private HistoryService historyService;
 	
+	@SuppressWarnings("unused")
 	@Resource(name="taskService")
 	private TaskService taskService;
 	
@@ -216,30 +217,26 @@ public class WorkFlowController {
 	 * @param taskId
 	 * @return
 	 */
-	@RequestMapping(value="/view/{taskId}/page",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView viewImage(@PathVariable("taskId")String taskId){
+	@RequestMapping(value="/view/{executionId}/page/{processInstanceId}",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView viewImage(@PathVariable("executionId")String executionId,@PathVariable("processInstanceId")String processInstanceId){
 		ModelAndView modelAndView=new ModelAndView("workflow/view");
-		modelAndView.addObject("taskId", taskId);
+		modelAndView.addObject("executionId", executionId);
+		modelAndView.addObject("processInstanceId", processInstanceId);
 		return modelAndView;
 	}
 	
 	
 	
 	/**
-	 * 根据任务id查询流程图(跟踪流程图)
-	 * @param taskId 任务id
+	 * 根据流程实例id查询流程图(跟踪流程图)
+	 * @param processInstanceId 流程实例id
 	 * @param request
 	 * @param response
 	 */
-	@Deprecated
-	@RequestMapping(value="/view/{taskId}",method={RequestMethod.GET,RequestMethod.POST})
-	public void viewProcessImageView(@PathVariable("taskId")String taskId,HttpServletRequest request, HttpServletResponse response){
+	@RequestMapping(value="/view/{processInstanceId}",method={RequestMethod.GET,RequestMethod.POST})
+	public void viewProcessImageView(@PathVariable("processInstanceId")String processInstanceId,HttpServletRequest request, HttpServletResponse response){
 		InputStream resourceAsStream = null;
 		try {
-			
-			Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-			
-			String processInstanceId = task.getProcessInstanceId();
 			
 			//根据流程实例id查询流程实例
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
@@ -279,6 +276,12 @@ public class WorkFlowController {
 	@RequestMapping(value = "/process/{executionId}/trace/{processInstanceId}",produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody Map<String,Object> traceProcess(@PathVariable("executionId") String executionId,@PathVariable("processInstanceId") String processInstanceId) throws Exception {
 		
+		//根据executionId查询当前执行的节点
+		ExecutionEntity execution=(ExecutionEntity) runtimeService.createExecutionQuery().processInstanceId(processInstanceId).executionId(executionId).singleResult();
+		
+		//获取当前节点的activityId
+		String activityId=execution.getActivityId();
+		
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 		
 		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) ((RepositoryServiceImpl)repositoryService).getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
@@ -290,7 +293,7 @@ public class WorkFlowController {
 		for (ActivityImpl activityImpl : activities) {
 			String id=activityImpl.getId();
 			//判断是否是当前节点
-			if(id.equals(executionId)){
+			if(id.equals(activityId)){
 				activityImageInfo.put("x", activityImpl.getX());
 				activityImageInfo.put("y", activityImpl.getY());
 				activityImageInfo.put("width", activityImpl.getWidth());
