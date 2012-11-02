@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,6 +12,7 @@
 <title>运行中的流程实例</title>
 </head>
 <body>
+<h1>运行中的流程实例</h1>
 <table width="100%" border="1" style="border-collapse: collapse;border-style: solid;border-color: maroon;">
 	<thead>
 		<tr align="center">
@@ -32,13 +34,13 @@
 		<tr id="${leave.id }" align="center">
 			<td>${leave.leaveType }</td>
 			<td>${leave.userId }</td>
-			<td>${leave.applyTime }</td>
-			<td>${leave.startTime }</td>
-			<td>${leave.endTime }</td>
+			<td><fmt:formatDate value="${leave.applyTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			<td><fmt:formatDate value="${leave.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			<td><fmt:formatDate value="${leave.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			<td>
 				<a class="trace" href='${ctx }/workflow/view/${task.executionId}/page/${task.processInstanceId}' title="点击查看流程图${pi.processInstanceId }">${task.name }</a>
 			</td>
-			<td>${task.createTime }</td>
+			<td><fmt:formatDate value="${task.createTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			<td>${pi.suspended ? "已挂起" : "正常" }；<b title='流程版本号'>V: ${leave.processDefinition.version }</b></td>
 			<td>${task.assignee }</td>
 		</tr>
