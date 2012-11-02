@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
-import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -24,6 +22,8 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.web.simple.webapp.service.ActivitiWorkFlowService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
   
   
 /** 
@@ -32,18 +32,19 @@ import org.apache.commons.lang.StringUtils;
  *  
  *  
  */  
+@Service("activitiWorkFlowServiceImpl")
 public class  ActivitiWorkFlowServiceImpl implements ActivitiWorkFlowService{  
 	
-	private ProcessEngine processEngine;
-	
+	@Autowired
 	private RepositoryService repositoryService;  
   
+	@Autowired
 	private RuntimeService runtimeService;
 
+	@Autowired
 	private TaskService taskService;
 
-	private FormService formService;
-
+	@Autowired
 	private HistoryService historyService;
 
 

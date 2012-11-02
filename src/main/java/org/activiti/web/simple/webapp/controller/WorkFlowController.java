@@ -22,9 +22,11 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.web.simple.webapp.service.ActivitiWorkFlowService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,21 +40,32 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(value="/workflow")
 public class WorkFlowController {
 	
+	
+	
+	@Autowired
+	private ActivitiWorkFlowService activitiWorkFlowService;
+	
+	
+	@SuppressWarnings("unused")
 	@Resource(name="identityService")
 	private IdentityService identityService;
 	
 	@Resource(name="runtimeService")
 	private RuntimeService runtimeService;
 	
+	@SuppressWarnings("unused")
 	@Resource(name="historyService")
 	private HistoryService historyService;
 	
+	@SuppressWarnings("unused")
 	@Resource(name="taskService")
 	private TaskService taskService;
 	
+	@SuppressWarnings("unused")
 	@Resource(name="managementService")
 	private ManagementService managementService;
 	
+	@SuppressWarnings("unused")
 	@Resource(name="formService")
 	private FormService formService;
 	
@@ -198,6 +211,21 @@ public class WorkFlowController {
 	
 	
 	
+	
+	/**
+	 * 请求转发到查看流程图页面
+	 * @param taskId
+	 * @return
+	 */
+	@RequestMapping(value="/view/{taskId}/page",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView viewImage(@PathVariable("taskId")String taskId){
+		ModelAndView modelAndView=new ModelAndView("workflow/view");
+		modelAndView.addObject("taskId", taskId);
+		return modelAndView;
+	}
+	
+	
+	
 	/**
 	 * 根据任务id查询流程图(跟踪流程图)
 	 * @param taskId 任务id
@@ -209,8 +237,7 @@ public class WorkFlowController {
 		InputStream resourceAsStream = null;
 		try {
 			
-			
-			
+			resourceAsStream = activitiWorkFlowService.getImageStream(taskId);
 			
 			byte[] byteArray = IOUtils.toByteArray(resourceAsStream);
 			ServletOutputStream servletOutputStream = response.getOutputStream();
