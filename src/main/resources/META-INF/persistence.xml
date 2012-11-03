@@ -4,7 +4,7 @@
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/activiti" />
-			<property name="hibernate.connection.driver_class" value="net.sf.log4jdbc.DriverSpy" />
+			<property name="hibernate.connection.driver_class" value="com.p6spy.engine.spy.P6SpyDriver" />
 			<property name="hibernate.connection.username" value="root" />
 			<property name="hibernate.connection.password" value="" />
 			<property name="hibernate.hbm2ddl.auto" value="update" /> 

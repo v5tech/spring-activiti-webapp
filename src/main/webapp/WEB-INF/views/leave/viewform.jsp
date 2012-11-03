@@ -157,7 +157,7 @@ ${message }
 
 
 <div id="modifyApply" style="display: none;">
-<form:form id="leaveform"  method="post" >
+<form:form id="leaveform"  method="post" onsubmit="javascript:return false;">
 	<fieldset>
 		<legend><small>请假办理</small></legend>
 		<table width="50%">
@@ -183,6 +183,18 @@ ${message }
 			<td align="right">请假原因：</td>
 			<td>
 				${leave.reason }
+			</td>
+		</tr>
+		<tr>
+			<td align="right">部门领导审批意见：</td>
+			<td>
+				${leave.variables.deptauditreason }
+			</td>
+		</tr>
+		<tr>
+			<td align="right">人事审批意见：</td>
+			<td>
+				${leave.variables.hrauditreason }
 			</td>
 		</tr>
 		<tr>
