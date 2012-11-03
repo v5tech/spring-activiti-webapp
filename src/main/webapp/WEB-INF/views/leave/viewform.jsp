@@ -191,12 +191,14 @@ ${message }
 				${leave.variables.deptauditreason }
 			</td>
 		</tr>
-		<tr>
-			<td align="right">人事审批意见：</td>
-			<td>
-				${leave.variables.hrauditreason }
-			</td>
-		</tr>
+		<c:if test="${!empty leave.variables.hrauditreason }">
+			<tr>
+				<td align="right">人事审批意见：</td>
+				<td>
+					${leave.variables.hrauditreason }
+				</td>
+			</tr>
+		</c:if>
 		<tr>
 			<td>
 				&nbsp;
