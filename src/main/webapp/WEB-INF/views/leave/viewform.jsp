@@ -101,9 +101,9 @@ function hrAudit(){
 </head>
 <body>
 <h1>流程办理</h1>
-${message }
+<font color="red">${message }</font>
 <div id="deptLeaderAudit" style="display: none;">
-<form:form id="leaveform" method="post" onsubmit="javascript:return false;">
+<form id="leaveform" method="post" onsubmit="javascript:return false;">
 	<fieldset>
 		<legend><small>请假办理</small></legend>
 		<table width="50%">
@@ -146,12 +146,12 @@ ${message }
 					<option value="true">同意</option>
 					<option value="false">驳回</option>
 				</select>
-				<button onclick="deptLeaderAudit();">提交</button>
+				<button onclick="deptLeaderAudit();" >提交</button>
 			</td>
 		</tr>
 	</table>
 	</fieldset>
-</form:form>
+</form>
 </div>
 
 
