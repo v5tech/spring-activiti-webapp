@@ -58,6 +58,13 @@ function complete(taskId, variables) {
         keys: keys,
         values: values,
         types: types
+    },function(data){
+    	alert(data=="success"?"执行成功!":"执行失败!");
+    	var a = document.createElement('a');
+    	a.href='${ctx }/leave/task/list';
+    	a.target = 'main';
+    	document.body.appendChild(a);
+    	a.click();
     });
 }
 
