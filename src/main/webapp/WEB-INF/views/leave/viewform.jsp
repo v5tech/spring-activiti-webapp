@@ -21,6 +21,11 @@ $(function() {
 	$('#startTime,#endTime').datetimepicker({
         stepMinute: 5
     });
+	
+	$('#realityStartTime,#realityEndTime').datetimepicker({
+        stepMinute: 5
+    });
+	
 	//显示当前节点对应的表单信息
 	$('#${activityId }').css("display","inline");
 });
@@ -95,7 +100,42 @@ function hrAudit(){
 
 //调整申请
 function modifyApply(){
-	
+	complete('${taskId}', [{
+		key: 'reApply',
+		value: $('#reApply').val(),
+		type: 'B'
+	}, {
+		key: 'leaveType',
+		value: $('#leaveType').val(),
+		type: 'S'
+	}, {
+		key: 'startTime',
+		value: $('#startTime').val(),
+		type: 'D'
+	}, {
+		key: 'endTime',
+		value: $('#endTime').val(),
+		type: 'D'
+	}, {
+		key: 'reason',
+		value: $('#reason').val(),
+		type: 'S'
+	}]);
+}
+
+//销假
+function reportBack(){
+	var realityStartTime = $('#realityStartTime').val();
+	var realityEndTime = $('#realityEndTime').val();
+	complete('${taskId}', [{
+		key: 'realityStartTime',
+		value: realityStartTime,
+		type: 'D'
+	}, {
+		key: 'realityEndTime',
+		value: realityEndTime,
+		type: 'D'
+	}]);
 }
 
 </script>
@@ -163,26 +203,32 @@ function modifyApply(){
 		<table width="50%">
 		<tr>
 			<td align="right">请假类型：</td>
-			<td>
-				${leave.leaveType }
+			<td>${leave.leaveType }
+				<select id="leaveType" name="leaveType">
+					<option>公休</option>
+					<option>病假</option>
+					<option>调休</option>
+					<option>事假</option>
+					<option>婚假</option>
+				</select>
 			</td>
 		</tr>
 		<tr>
 			<td align="right">开始时间：</td>
 			<td>
-				<fmt:formatDate value="${leave.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
+				<input type="text" id="startTime" name="startTime" value="<fmt:formatDate value="${leave.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="right">结束时间：</td>
 			<td>
-				<fmt:formatDate value="${leave.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
+				<input type="text" id="endTime" name="endTime" value="<fmt:formatDate value="${leave.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="right">请假原因：</td>
 			<td>
-				${leave.reason }
+				<textarea name="reason" id="reason">${leave.reason }</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -204,7 +250,11 @@ function modifyApply(){
 				&nbsp;
 			</td>
 			<td>
-				<button onclick="doclick();">提交</button>
+				<select id="reApply" name="reApply">
+					<option value="true">重新申请</option>
+					<option value="false">结束流程</option>
+				</select>
+				<button onclick="modifyApply();">提交</button>
 			</td>
 		</tr>
 	</table>
@@ -314,11 +364,23 @@ function modifyApply(){
 			</tr>
 		</c:if>
 		<tr>
+			<td align="right">实际开始时间：</td>
+			<td>
+				<input type="text" id="realityStartTime" name="realityStartTime"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">实际结束时间：</td>
+			<td>
+				<input type="text" id="realityEndTime" name="realityEndTime"/>
+			</td>
+		</tr>
+		<tr>
 			<td>
 				&nbsp;
 			</td>
 			<td>
-				<button onclick="doclick();">提交</button>
+				<button onclick="reportBack();">提交</button>
 			</td>
 		</tr>
 	</table>
