@@ -59,7 +59,7 @@ $(function() {
 		<tr>
 			<td>&nbsp;</td>
 			<td>
-				<button type="submmit">申请</button>
+				<button type="submit">申请</button>
 			</td>
 		</tr>
 	</table>

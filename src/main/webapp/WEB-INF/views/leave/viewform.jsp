@@ -21,11 +21,8 @@ $(function() {
 	$('#startTime,#endTime').datetimepicker({
         stepMinute: 5
     });
-	
-	
 	//显示当前节点对应的表单信息
 	$('#${activityId }').css("display","inline");
-	
 });
 
 
@@ -59,6 +56,7 @@ function complete(taskId, variables) {
     });
 }
 
+//部门经理审核
 function deptLeaderAudit(){
 	var deptLeaderPass=$('#deptLeaderPass').val();
 	var deptauditreason=$('#deptauditreason').val();
@@ -77,7 +75,7 @@ function deptLeaderAudit(){
 }
 
 
-
+//人事审批
 function hrAudit(){
 	var hrauditreason=$('#hrauditreason').val();
 	var hrPass=$('#hrPass').val();
@@ -95,13 +93,17 @@ function hrAudit(){
 	]);
 }
 
-
+//调整申请
+function modifyApply(){
+	
+}
 
 </script>
 </head>
 <body>
 <h1>流程办理</h1>
 <font color="red">${message }</font>
+<!-- 部门经理审批 -->
 <div id="deptLeaderAudit" style="display: none;">
 <form id="leaveform" method="post" onsubmit="javascript:return false;">
 	<fieldset>
@@ -153,9 +155,7 @@ function hrAudit(){
 	</fieldset>
 </form>
 </div>
-
-
-
+<!-- 调整申请 -->
 <div id="modifyApply" style="display: none;">
 <form:form id="leaveform"  method="post" onsubmit="javascript:return false;">
 	<fieldset>
@@ -211,13 +211,7 @@ function hrAudit(){
 	</fieldset>
 </form:form>
 </div>
-
-
-
-
-
-
-
+<!-- 人事审批 -->
 <div id="hrAudit" style="display: none;">
 <form:form id="leaveform"  method="post" onsubmit="javascript:return false;">
 	<fieldset>
@@ -275,17 +269,9 @@ function hrAudit(){
 	</fieldset>
 </form:form>
 </div>
-
-
-
-
-
-
-
-
-
+<!-- 销假 -->
 <div id="reportBack" style="display: none;">
-<form:form id="leaveform"  method="post" >
+<form:form id="leaveform"  method="post" onsubmit="javascript:return false;">
 	<fieldset>
 		<legend><small>请假办理</small></legend>
 		<table width="50%">
@@ -314,6 +300,20 @@ function hrAudit(){
 			</td>
 		</tr>
 		<tr>
+			<td align="right">部门领导审批意见：</td>
+			<td>
+				${leave.variables.deptauditreason }
+			</td>
+		</tr>
+		<c:if test="${!empty leave.variables.hrauditreason }">
+			<tr>
+				<td align="right">人事审批意见：</td>
+				<td>
+					${leave.variables.hrauditreason }
+				</td>
+			</tr>
+		</c:if>
+		<tr>
 			<td>
 				&nbsp;
 			</td>
@@ -325,39 +325,4 @@ function hrAudit(){
 	</fieldset>
 </form:form>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>
