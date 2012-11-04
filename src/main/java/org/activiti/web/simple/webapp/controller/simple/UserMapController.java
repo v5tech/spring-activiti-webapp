@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UserMapController {
 	
-	@RequestMapping(value="/userMap",method={RequestMethod.POST})
+	@RequestMapping(value="/usermap",method={RequestMethod.POST})
 	public String test(UserMapForm userMapForm){
 		
 		Map<String, User> map = userMapForm.getUsers();
