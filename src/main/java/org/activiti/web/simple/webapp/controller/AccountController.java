@@ -8,8 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.activiti.engine.identity.Group;
-import org.activiti.web.simple.webapp.model.User;
+import org.activiti.engine.identity.User;
 import org.activiti.web.simple.webapp.service.AccountService;
+import org.activiti.web.simple.webapp.service.ActivitiWorkFlowService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +23,9 @@ public class AccountController {
 
 	@Resource(name="accountServiceImpl")
 	private AccountService accountService;
+	
+	@Resource(name="activitiWorkFlowServiceImpl")
+	private ActivitiWorkFlowService activitiWorkFlowService;
 	
 	ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		return null;
@@ -75,7 +79,7 @@ public class AccountController {
 		if((username!=null&&username.length()>0)&&(password!=null&&password.length()>0)){
 			boolean b = accountService.checkPassword(username, password);
 			if(b){
-				User user=new User();
+				User user = activitiWorkFlowService.getUserInfo(username);
 				user.setId(username);
 				user.setPassword(password);
 				request.getSession().setAttribute("loginuser", user);
