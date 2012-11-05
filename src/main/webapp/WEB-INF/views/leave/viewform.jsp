@@ -133,6 +133,7 @@ function modifyApply(){
 		value: $('#modifyApply :radio[name=notify]:checked').val(),
 		type: 'B'
 	}]);
+	
 }
 
 //销假
@@ -154,7 +155,6 @@ function reportBack(){
 		type: 'B'
 	}]);
 }
-
 </script>
 </head>
 <body>
@@ -261,6 +261,15 @@ function reportBack(){
 			</tr>
 		</c:if>
 		<tr>
+			<td>
+				&nbsp;
+			</td>
+			<td>
+				<input type="radio" name="reApply" value="true" checked="checked" onselect="javascript:$('#isnotify').hide();" onclick="javascript:$('#isnotify').hide();">重新申请
+				<input type="radio" name="reApply" value="false" onclick="javascript:$('#isnotify').show();">结束流程
+			</td>
+		</tr>
+		<tr id="isnotify" style="display: none;">
 			<td align="right">是否邮件通知：</td>
 			<td>
 				<input type="radio" name="notify" value="true" checked="checked">是
@@ -272,8 +281,6 @@ function reportBack(){
 				&nbsp;
 			</td>
 			<td>
-				<input type="radio" name="reApply" value="true" checked="checked">重新申请
-				<input type="radio" name="reApply" value="false">结束流程
 				<button onclick="modifyApply();">提交</button>
 			</td>
 		</tr>
