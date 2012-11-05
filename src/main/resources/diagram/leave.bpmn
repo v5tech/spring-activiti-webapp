@@ -4,8 +4,16 @@
     <startEvent id="startevent" name="Start" activiti:initiator="applyUserId"></startEvent>
     <userTask id="deptLeaderAudit" name="部门领导审批" activiti:candidateGroups="deptLeader"></userTask>
     <userTask id="hrAudit" name="人事审批" activiti:candidateGroups="hr"></userTask>
-    <userTask id="reportBack" name="销假" activiti:assignee="${applyUserId}"></userTask>
-    <userTask id="modifyApply" name="调整申请" activiti:assignee="${applyUserId}"></userTask>
+    <userTask id="reportBack" name="销假" activiti:assignee="${applyUserId}">
+      <extensionElements>
+        <activiti:taskListener event="complete" expression="${reportBackEndProcessor}"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="modifyApply" name="调整申请" activiti:assignee="${applyUserId}">
+      <extensionElements>
+        <activiti:taskListener event="complete" expression="${afterModifyApplyContentProcessor}"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
@@ -53,8 +61,8 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${reApply}]]></conditionExpression>
     </sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_process1">
-    <bpmndi:BPMNPlane bpmnElement="process1" id="BPMNPlane_process1">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_leave">
+    <bpmndi:BPMNPlane bpmnElement="leave" id="BPMNPlane_leave">
       <bpmndi:BPMNShape bpmnElement="startevent" id="BPMNShape_startevent">
         <omgdc:Bounds height="35" width="35" x="170" y="196"></omgdc:Bounds>
       </bpmndi:BPMNShape>
