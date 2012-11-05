@@ -14,6 +14,7 @@ import org.activiti.web.simple.webapp.service.AccountService;
 import org.activiti.web.simple.webapp.service.ActivitiWorkFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -159,5 +160,26 @@ public class AccountController {
 		modelAndView.addObject("listgroup", listgroup);
 		return modelAndView;
 	}
+	
+	
+	
+	
+	/**
+	 * 查看组内的成员
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value="/memberofgroup/{groupId}",method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView memberOfGroup(@PathVariable("groupId")String groupId){
+		List<User> listMemberOfGroupUser = identityService.createUserQuery().memberOfGroup(groupId).list();
+		ModelAndView modelAndView=new ModelAndView();
+		modelAndView.setViewName("user/listuser");
+		modelAndView.addObject("listuser", listMemberOfGroupUser);
+		return modelAndView;
+	}
+	
+	
+	
 	
 }

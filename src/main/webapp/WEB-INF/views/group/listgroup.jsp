@@ -26,6 +26,7 @@
 			<td>
 				<a href="" target="main">修改</a>
 				<a href="" target="main">删除</a>
+				<a href="${ctx }/memberofgroup/${group.id }" target="main">查看该组的用户</a>
 			</td>
 		</tr>
 	</c:forEach>
