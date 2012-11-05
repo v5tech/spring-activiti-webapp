@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.HistoryService;
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.bpmn.diagram.ProcessDiagramGenerator;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
@@ -34,6 +37,9 @@ import org.springframework.stereotype.Service;
  */  
 @Service("activitiWorkFlowServiceImpl")
 public class  ActivitiWorkFlowServiceImpl implements ActivitiWorkFlowService{  
+	
+	@Autowired
+	private IdentityService identityService;
 	
 	@Autowired
 	private RepositoryService repositoryService;  
@@ -482,4 +488,40 @@ public class  ActivitiWorkFlowServiceImpl implements ActivitiWorkFlowService{
 		runtimeService.getActiveActivityIds(findProcessInstanceByTaskId(taskId).getId()));
     	return imageStream;
     }
+
+    /**
+     * 验证登录
+     */
+	public boolean login(String userid, String password) throws Exception {
+		return identityService.checkPassword(userid, password);
+	}
+
+	/**
+	 * 获取用户详细信息
+	 */
+	public User getUserInfo(String userid) {
+		return identityService.createUserQuery().userId(userid).singleResult();
+	}
+
+	/**
+	 * 根据用户id查询用户所在的组
+	 */
+	public List<Group> getUserOfGroup(String userid) {
+		return identityService.createGroupQuery().groupMember(userid).list();
+	}
+
+
+	/**
+	 * 根据groupId查询组详细信息
+	 */
+	public Group getGroupInfo(String groupId) {
+		return identityService.createGroupQuery().groupId(groupId).singleResult();
+	}
+
+	/**
+	 * 列出组内的所有用户
+	 */
+	public List<User> memberOfGroup(String groupId) {
+		return identityService.createUserQuery().memberOfGroup(groupId).list();
+	}
 }

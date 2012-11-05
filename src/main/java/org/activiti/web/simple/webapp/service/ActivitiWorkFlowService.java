@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.impl.pvm.PvmTransition;
@@ -178,6 +180,49 @@ public interface ActivitiWorkFlowService {
 	public abstract void turnTransition(String taskId, String activityId,
 			Map<String, Object> variables) throws Exception;
 
+	
 	public abstract InputStream getImageStream(String taskId) throws Exception;
-
+	
+	
+	/**
+	 * 登录
+	 * @param userid
+	 * @param password
+	 * @return
+	 * @throws Exception
+	 */
+	public abstract boolean login(String userid,String password) throws Exception;
+	
+	/**
+	 * 获取用户详细信息
+	 * @param userid
+	 * @return
+	 */
+	public abstract User getUserInfo(String userid);
+	
+	
+	
+	/**
+	 * 获取组详细信息
+	 * @param groupid
+	 * @return
+	 */
+	public abstract Group getGroupInfo(String groupid);
+	
+	
+	/**
+	 * 列出用户所属的组
+	 * @param userid
+	 * @return
+	 */
+	public abstract List<Group> getUserOfGroup(String userid);
+	
+	
+	/**
+	 * 根据groupId查询组内的用户
+	 * @param groupId
+	 * @return
+	 */
+	public abstract List<User> memberOfGroup(String groupId);
+	
 }

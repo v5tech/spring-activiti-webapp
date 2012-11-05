@@ -91,8 +91,8 @@ public class LeaveWorkFlowServiceImpl implements LeaveWorkFlowService {
 		//根据当前用户id查询未签收的任务列表
 		List<Task> taskCandidates = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskCandidateUser(userid).orderByTaskPriority().desc().orderByTaskCreateTime().desc().list();
 		
-		tasks.addAll(taskAssignees);//添加已签收贮备执行的任务
-		tasks.addAll(taskCandidates);//添加还未签收的任务
+		tasks.addAll(taskAssignees);//添加已签收准备执行的任务(已经分配到任务的人)
+		tasks.addAll(taskCandidates);//添加还未签收的任务(任务的候选者)
 		
 		
 		//遍历所有的任务列表,关联实体
@@ -102,7 +102,6 @@ public class LeaveWorkFlowServiceImpl implements LeaveWorkFlowService {
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 			//获取业务id
 			String businessKey=processInstance.getBusinessKey();
-			
 			//查询请假实体
 			Leave leave = leaveService.findById(businessKey);
 			//设置属性
@@ -188,6 +187,9 @@ public class LeaveWorkFlowServiceImpl implements LeaveWorkFlowService {
 	}
 
 
+	/**
+	 * 根据任务Id查询任务
+	 */
 	public TaskEntity findTaskById(String taskId) throws Exception {
 		TaskEntity task = (TaskEntity) taskService.createTaskQuery().taskId(taskId).singleResult();  
         if (task == null) {  
