@@ -71,8 +71,8 @@ function complete(taskId, variables) {
 
 //部门经理审核
 function deptLeaderAudit(){
-	var deptLeaderPass=$('#deptLeaderPass').val();
-	var deptauditreason=$('#deptauditreason').val();
+	var deptLeaderPass=$('#deptLeaderAudit :radio[name=deptLeaderPass]:checked').val();
+	var deptauditreason=$('#deptLeaderAudit #deptauditreason').val();
 	complete('${taskId}',[
 		{
 			key: 'deptLeaderPass',
@@ -90,8 +90,8 @@ function deptLeaderAudit(){
 
 //人事审批
 function hrAudit(){
-	var hrauditreason=$('#hrauditreason').val();
-	var hrPass=$('#hrPass').val();
+	var hrauditreason=$('#hrAudit #hrauditreason').val();
+	var hrPass=$('#hrAudit :radio[name=hrPass]:checked').val();
 	complete('${taskId}',[
 		{
 			key: 'hrPass',
@@ -110,35 +110,36 @@ function hrAudit(){
 function modifyApply(){
 	complete('${taskId}', [{
 		key: 'reApply',
-		value: $('#reApply').val(),
+		value: $('#modifyApply :radio[name=reApply]:checked').val(),
 		type: 'B'
 	}, {
 		key: 'leaveType',
-		value: $('#leaveType').val(),
+		value: $('#modifyApply #leaveType').val(),
 		type: 'S'
 	}, {
 		key: 'startTime',
-		value: $('#startTime').val(),
+		value: $('#modifyApply #startTime').val(),
 		type: 'D'
 	}, {
 		key: 'endTime',
-		value: $('#endTime').val(),
+		value: $('#modifyApply #endTime').val(),
 		type: 'D'
 	}, {
 		key: 'reason',
-		value: $('#reason').val(),
+		value: $('#modifyApply #reason').val(),
 		type: 'S'
 	}, {
 		key: 'notify',
-		value: $('#notify').val(),
+		value: $('#modifyApply :radio[name=notify]:checked').val(),
 		type: 'B'
 	}]);
 }
 
 //销假
 function reportBack(){
-	var realityStartTime = $('#realityStartTime').val();
-	var realityEndTime = $('#realityEndTime').val();
+	var realityStartTime = $('#reportBack #realityStartTime').val();
+	var realityEndTime = $('#reportBack #realityEndTime').val();
+	var notify = $('#reportBack :radio[name=notify]:checked').val();
 	complete('${taskId}', [{
 		key: 'realityStartTime',
 		value: realityStartTime,
@@ -149,7 +150,7 @@ function reportBack(){
 		type: 'D'
 	}, {
 		key: 'notify',
-		value: $('#notify').val(),
+		value: notify,
 		type: 'B'
 	}]);
 }
@@ -200,10 +201,8 @@ function reportBack(){
 				&nbsp;
 			</td>
 			<td>
-				<select id="deptLeaderPass" name="deptLeaderPass">
-					<option value="true">同意</option>
-					<option value="false">驳回</option>
-				</select>
+				<input type="radio" name="deptLeaderPass" value="true" checked="checked">同意
+				<input type="radio" name="deptLeaderPass" value="false" >驳回
 				<button onclick="deptLeaderAudit();" >提交</button>
 			</td>
 		</tr>
@@ -264,10 +263,8 @@ function reportBack(){
 		<tr>
 			<td align="right">是否邮件通知：</td>
 			<td>
-				<select id="notify" name="notify">
-					<option value="true">是</option>
-					<option value="false">否</option>
-				</select>
+				<input type="radio" name="notify" value="true" checked="checked">是
+				<input type="radio" name="notify" value="false">否
 			</td>
 		</tr>
 		<tr>
@@ -275,10 +272,8 @@ function reportBack(){
 				&nbsp;
 			</td>
 			<td>
-				<select id="reApply" name="reApply">
-					<option value="true">重新申请</option>
-					<option value="false">结束流程</option>
-				</select>
+				<input type="radio" name="reApply" value="true" checked="checked">重新申请
+				<input type="radio" name="reApply" value="false">结束流程
 				<button onclick="modifyApply();">提交</button>
 			</td>
 		</tr>
@@ -333,10 +328,8 @@ function reportBack(){
 				&nbsp;
 			</td>
 			<td>
-				<select id="hrPass" name="hrPass">
-					<option value="true">同意</option>
-					<option value="false">驳回</option>
-				</select>
+				<input type="radio" name="hrPass" value="true" checked="checked">同意
+				<input type="radio" name="hrPass" value="false">驳回
 				<button onclick="hrAudit();">提交</button>
 			</td>
 		</tr>
@@ -403,10 +396,8 @@ function reportBack(){
 		<tr>
 			<td align="right">是否邮件通知：</td>
 			<td>
-				<select id="notify" name="notify">
-					<option value="true">是</option>
-					<option value="false">否</option>
-				</select>
+				<input type="radio" name="notify" value="true" checked="checked">是
+				<input type="radio" name="notify" value="false">否
 			</td>
 		</tr>
 		<tr>

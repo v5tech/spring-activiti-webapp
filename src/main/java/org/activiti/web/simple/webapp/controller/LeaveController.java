@@ -18,11 +18,11 @@ import org.activiti.engine.ManagementService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.web.simple.webapp.model.Leave;
-import org.activiti.web.simple.webapp.model.User;
 import org.activiti.web.simple.webapp.service.LeaveService;
 import org.activiti.web.simple.webapp.service.LeaveWorkFlowService;
 import org.activiti.web.simple.webapp.util.Variable;
@@ -91,11 +91,11 @@ public class LeaveController {
 		
 		User user=(User) session.getAttribute("loginuser");
 		if(user!=null){
-			//管理用户id
+			
+			//关联用户id
 			leave.setUserId(user.getId());	
 			
 			leave.setApplyTime(Calendar.getInstance().getTime());
-			
 			
 			variables.put("to", user.getEmail());
 			
