@@ -54,7 +54,7 @@
     </sequenceFlow>
     <sequenceFlow id="flow12" name="" sourceRef="mailMsg" targetRef="endevent1"></sequenceFlow>
     <sequenceFlow id="flow13" name="" sourceRef="modifyApply" targetRef="exclusivegateway3"></sequenceFlow>
-    <sequenceFlow id="flow14" name="结束流程" sourceRef="exclusivegateway3" targetRef="endevent1">
+    <sequenceFlow id="flow14" name="结束流程" sourceRef="exclusivegateway3" targetRef="exclusivegateway4">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!reApply}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow15" name="重新申请" sourceRef="exclusivegateway3" targetRef="deptLeaderAudit">
@@ -163,8 +163,8 @@
         <omgdi:waypoint x="414" y="507"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
-        <omgdi:waypoint x="414" y="547"></omgdi:waypoint>
-        <omgdi:waypoint x="801" y="588"></omgdi:waypoint>
+        <omgdi:waypoint x="414" y="507"></omgdi:waypoint>
+        <omgdi:waypoint x="912" y="467"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="14" width="100" x="10" y="0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>

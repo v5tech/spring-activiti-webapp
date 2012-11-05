@@ -128,6 +128,10 @@ function modifyApply(){
 		key: 'reason',
 		value: $('#reason').val(),
 		type: 'S'
+	}, {
+		key: 'notify',
+		value: $('#notify').val(),
+		type: 'B'
 	}]);
 }
 
@@ -143,6 +147,10 @@ function reportBack(){
 		key: 'realityEndTime',
 		value: realityEndTime,
 		type: 'D'
+	}, {
+		key: 'notify',
+		value: $('#notify').val(),
+		type: 'B'
 	}]);
 }
 
@@ -253,6 +261,15 @@ function reportBack(){
 				</td>
 			</tr>
 		</c:if>
+		<tr>
+			<td align="right">是否邮件通知：</td>
+			<td>
+				<select id="notify" name="notify">
+					<option value="true">是</option>
+					<option value="false">否</option>
+				</select>
+			</td>
+		</tr>
 		<tr>
 			<td>
 				&nbsp;
@@ -381,6 +398,15 @@ function reportBack(){
 			<td align="right">实际结束时间：</td>
 			<td>
 				<input type="text" id="realityEndTime" name="realityEndTime"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">是否邮件通知：</td>
+			<td>
+				<select id="notify" name="notify">
+					<option value="true">是</option>
+					<option value="false">否</option>
+				</select>
 			</td>
 		</tr>
 		<tr>

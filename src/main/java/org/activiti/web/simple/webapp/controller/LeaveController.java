@@ -86,12 +86,18 @@ public class LeaveController {
 		
 		Map<String, Object> variables=new HashMap<String, Object>();
 		
+		//设定邮件发送人和邮件收件人
+		variables.put("from", "184675420@qq.com");
+		
 		User user=(User) session.getAttribute("loginuser");
 		if(user!=null){
 			//管理用户id
 			leave.setUserId(user.getId());	
 			
 			leave.setApplyTime(Calendar.getInstance().getTime());
+			
+			
+			variables.put("to", user.getEmail());
 			
 			//先持久化请假实体
 			leaveService.save(leave);
