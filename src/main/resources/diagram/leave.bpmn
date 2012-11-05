@@ -6,12 +6,12 @@
     <userTask id="hrAudit" name="人事审批" activiti:candidateGroups="hr"></userTask>
     <userTask id="reportBack" name="销假" activiti:assignee="${applyUserId}">
       <extensionElements>
-        <activiti:taskListener event="complete" expression="${reportBackEndProcessor}"></activiti:taskListener>
+        <activiti:taskListener event="complete" delegateExpression="${reportBackEndProcessor}"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <userTask id="modifyApply" name="调整申请" activiti:assignee="${applyUserId}">
       <extensionElements>
-        <activiti:taskListener event="complete" expression="${afterModifyApplyContentProcessor}"></activiti:taskListener>
+        <activiti:taskListener event="complete" delegateExpression="${afterModifyApplyContentProcessor}"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
