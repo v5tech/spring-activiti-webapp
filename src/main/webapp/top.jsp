@@ -13,7 +13,9 @@
 </head>
 <body>
 <img alt="activiti" src="${ctx }/images/activiti_logo.png"><font size="6" style="font-weight: bold;">Activiti整合Spring工作流(请假流程示例)</font>
-${loginuser.id },<%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) %>
+${loginuser.id }(<c:forEach items="${listGroup }" var="group">
+	<c:out value="${group.name }"></c:out>
+</c:forEach>),<%=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) %>
 <c:if test="${empty loginuser.id}" var="islogin">
 <a href="${ctx }/login" target="_top">登录</a>
 </c:if>

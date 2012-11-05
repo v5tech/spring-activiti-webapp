@@ -7,10 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.activiti.web.simple.webapp.service.AccountService;
 import org.activiti.web.simple.webapp.service.ActivitiWorkFlowService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +23,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AccountController {
 
+	@Autowired
+	private IdentityService identityService;
+	
 	@Resource(name="accountServiceImpl")
 	private AccountService accountService;
 	
@@ -82,7 +87,13 @@ public class AccountController {
 				User user = activitiWorkFlowService.getUserInfo(username);
 				user.setId(username);
 				user.setPassword(password);
+				
+				//查询用户所在的组
+				
+				List<Group> listGroup = identityService.createGroupQuery().groupMember(username).list();
+				
 				request.getSession().setAttribute("loginuser", user);
+				request.getSession().setAttribute("listGroup", listGroup);
 				redirectAttributes.addFlashAttribute("message", "登录成功!");
 				forword="/main";//main.jsp
 			}else{
