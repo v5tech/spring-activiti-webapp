@@ -186,28 +186,6 @@ public class LeaveController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * 根据任务Id完成任务
 	 * @param userid
