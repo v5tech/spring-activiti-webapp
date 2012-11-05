@@ -12,7 +12,7 @@
 <title>待办任务列表</title>
 </head>
 <body>
-${message }
+<font color="red">${message }</font>
 <h1>待办任务列表</h1>
 <table width="100%" border="1" style="border-collapse: collapse;border-style: solid;border-color: maroon;">
 <thead>

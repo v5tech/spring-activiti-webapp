@@ -22,10 +22,12 @@ $(function() {
         stepMinute: 5
     });
 	
+	$('#realityStartTime,#realityEndTime').datetimepicker({
+        stepMinute: 5
+    });
 	
 	//显示当前节点对应的表单信息
 	$('#${activityId }').css("display","inline");
-	
 });
 
 
@@ -56,10 +58,18 @@ function complete(taskId, variables) {
         keys: keys,
         values: values,
         types: types
+    },function(data){
+    	alert(data=="success"?"执行成功!":"执行失败!");
+    	var a = document.createElement('a');
+    	a.href='${ctx }/leave/task/list';
+    	a.target = 'main';
+    	document.body.appendChild(a);
+    	a.click();
     });
     
 }
 
+//部门经理审核
 function deptLeaderAudit(){
 	var deptLeaderPass=$('#deptLeaderPass').val();
 	var deptauditreason=$('#deptauditreason').val();
@@ -78,7 +88,7 @@ function deptLeaderAudit(){
 }
 
 
-
+//人事审批
 function hrAudit(){
 	var hrauditreason=$('#hrauditreason').val();
 	var hrPass=$('#hrPass').val();
@@ -96,15 +106,54 @@ function hrAudit(){
 	]);
 }
 
+//调整申请
+function modifyApply(){
+	complete('${taskId}', [{
+		key: 'reApply',
+		value: $('#reApply').val(),
+		type: 'B'
+	}, {
+		key: 'leaveType',
+		value: $('#leaveType').val(),
+		type: 'S'
+	}, {
+		key: 'startTime',
+		value: $('#startTime').val(),
+		type: 'D'
+	}, {
+		key: 'endTime',
+		value: $('#endTime').val(),
+		type: 'D'
+	}, {
+		key: 'reason',
+		value: $('#reason').val(),
+		type: 'S'
+	}]);
+}
 
+//销假
+function reportBack(){
+	var realityStartTime = $('#realityStartTime').val();
+	var realityEndTime = $('#realityEndTime').val();
+	complete('${taskId}', [{
+		key: 'realityStartTime',
+		value: realityStartTime,
+		type: 'D'
+	}, {
+		key: 'realityEndTime',
+		value: realityEndTime,
+		type: 'D'
+	}]);
+}
 
 </script>
 </head>
 <body>
 <h1>流程办理</h1>
-${message }
+<font color="red">${message }</font>
+<!-- 部门经理审批 -->
 <div id="deptLeaderAudit" style="display: none;">
-<form:form id="leaveform" method="post" onsubmit="javascript:return false;">
+<form id="leaveform" method="post" onsubmit="javascript:return false;">
 	<fieldset>
 		<legend><small>请假办理</small></legend>
 		<table width="50%">
@@ -147,64 +196,80 @@ ${message }
 					<option value="true">同意</option>
 					<option value="false">驳回</option>
 				</select>
-				<button onclick="deptLeaderAudit();">提交</button>
+				<button onclick="deptLeaderAudit();" >提交</button>
 			</td>
 		</tr>
 	</table>
 	</fieldset>
-</form:form>
+</form>
 </div>
-
-
-
+<!-- 调整申请 -->
 <div id="modifyApply" style="display: none;">
-<form:form id="leaveform"  method="post" >
+<form:form id="leaveform"  method="post" onsubmit="javascript:return false;">
 	<fieldset>
 		<legend><small>请假办理</small></legend>
 		<table width="50%">
 		<tr>
 			<td align="right">请假类型：</td>
-			<td>
-				${leave.leaveType }
+			<td>${leave.leaveType }
+				<select id="leaveType" name="leaveType">
+					<option>公休</option>
+					<option>病假</option>
+					<option>调休</option>
+					<option>事假</option>
+					<option>婚假</option>
+				</select>
 			</td>
 		</tr>
 		<tr>
 			<td align="right">开始时间：</td>
 			<td>
-				<fmt:formatDate value="${leave.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
+				<input type="text" id="startTime" name="startTime" value="<fmt:formatDate value="${leave.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="right">结束时间：</td>
 			<td>
-				<fmt:formatDate value="${leave.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
+				<input type="text" id="endTime" name="endTime" value="<fmt:formatDate value="${leave.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="right">请假原因：</td>
 			<td>
-				${leave.reason }
+				<textarea name="reason" id="reason">${leave.reason }</textarea>
 			</td>
 		</tr>
+		<tr>
+			<td align="right">部门领导审批意见：</td>
+			<td>
+				${leave.variables.deptauditreason }
+			</td>
+		</tr>
+		<c:if test="${!empty leave.variables.hrauditreason }">
+			<tr>
+				<td align="right">人事审批意见：</td>
+				<td>
+					${leave.variables.hrauditreason }
+				</td>
+			</tr>
+		</c:if>
 		<tr>
 			<td>
 				&nbsp;
 			</td>
 			<td>
-				<button onclick="doclick();">提交</button>
+				<select id="reApply" name="reApply">
+					<option value="true">重新申请</option>
+					<option value="false">结束流程</option>
+				</select>
+				<button onclick="modifyApply();">提交</button>
 			</td>
 		</tr>
 	</table>
 	</fieldset>
 </form:form>
 </div>
-
-
-
-
-
-
-
+<!-- 人事审批 -->
 <div id="hrAudit" style="display: none;">
 <form:form id="leaveform"  method="post" onsubmit="javascript:return false;">
 	<fieldset>
@@ -262,17 +327,9 @@ ${message }
 	</fieldset>
 </form:form>
 </div>
-
-
-
-
-
-
-
-
-
+<!-- 销假 -->
 <div id="reportBack" style="display: none;">
-<form:form id="leaveform"  method="post" >
+<form:form id="leaveform"  method="post" onsubmit="javascript:return false;">
 	<fieldset>
 		<legend><small>请假办理</small></legend>
 		<table width="50%">
@@ -301,50 +358,41 @@ ${message }
 			</td>
 		</tr>
 		<tr>
+			<td align="right">部门领导审批意见：</td>
+			<td>
+				${leave.variables.deptauditreason }
+			</td>
+		</tr>
+		<c:if test="${!empty leave.variables.hrauditreason }">
+			<tr>
+				<td align="right">人事审批意见：</td>
+				<td>
+					${leave.variables.hrauditreason }
+				</td>
+			</tr>
+		</c:if>
+		<tr>
+			<td align="right">实际开始时间：</td>
+			<td>
+				<input type="text" id="realityStartTime" name="realityStartTime"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">实际结束时间：</td>
+			<td>
+				<input type="text" id="realityEndTime" name="realityEndTime"/>
+			</td>
+		</tr>
+		<tr>
 			<td>
 				&nbsp;
 			</td>
 			<td>
-				<button onclick="doclick();">提交</button>
+				<button onclick="reportBack();">提交</button>
 			</td>
 		</tr>
 	</table>
 	</fieldset>
 </form:form>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>

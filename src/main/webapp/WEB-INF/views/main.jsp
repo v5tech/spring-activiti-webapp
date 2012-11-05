@@ -11,7 +11,7 @@
 	<frame src="${ctx }/top.jsp" name="top" >
 	<frameset cols="160,*" frameborder="1" border="1">
 		<frame src="${ctx }/left.jsp" name="left">
-		<frame src="${ctx }/work.jsp" name="main">
+		<frame src="${ctx }/work.jsp" name="main" id="main">
 	</frameset>
 </frameset>
 </html>

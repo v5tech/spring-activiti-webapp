@@ -25,7 +25,7 @@ $(function() {
 </head>
 <body>
 <h1>填写请假单</h1>
-${message }
+<font color="red">${message }</font>
 <form:form id="leaveform" action="${ctx}/leave/start" method="post">
 	<fieldset>
 		<legend><small>请假申请</small></legend>
@@ -59,7 +59,7 @@ ${message }
 		<tr>
 			<td>&nbsp;</td>
 			<td>
-				<button type="submmit">申请</button>
+				<button type="submit">申请</button>
 			</td>
 		</tr>
 	</table>

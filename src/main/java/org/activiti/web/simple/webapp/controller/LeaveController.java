@@ -214,19 +214,19 @@ public class LeaveController {
 	 * @return
 	 */
 	@RequestMapping(value="/task/{taskId}/complete",method={RequestMethod.GET,RequestMethod.POST})
-	public String completeTask(@PathVariable("taskId")String taskId,Variable variable,HttpServletRequest request, HttpServletResponse response,RedirectAttributes redirectAttributes,HttpSession session){
-		String message="";
+	public @ResponseBody String completeTask(@PathVariable("taskId")String taskId,Variable variable){
+		//String message="";
 		try {
 			Map<String, Object> variables = variable.getVariableMap();
 			taskService.complete(taskId,variables);
-			message="任务执行成功!";
+			//message="success";
+			return "success";
 		} catch (Exception e) {
-			message="任务执行失败!";
+			//message="error";
+			return "error";
 		}
-		
-		redirectAttributes.addFlashAttribute("message", message);
-		
-		return "redirect:/leave/task/list";//跳转到待办任务列表
+		//redirectAttributes.addFlashAttribute("message", message);
+		//"redirect:/leave/task/list" 跳转到待办任务列表
 	}
 	
 	

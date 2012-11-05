@@ -35,16 +35,14 @@ import org.apache.commons.lang.StringUtils;
 public class  ProcessCustomService{  
 	
 	private static ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+	
 	private static RepositoryService repositoryService = processEngine.getRepositoryService();  
   
 	private static RuntimeService runtimeService = processEngine.getRuntimeService();
 
-
 	private static TaskService taskService = processEngine.getTaskService();
 
-
 	private static FormService formService = processEngine.getFormService();
-
 
 	private static HistoryService historyService = processEngine.getHistoryService();
 
