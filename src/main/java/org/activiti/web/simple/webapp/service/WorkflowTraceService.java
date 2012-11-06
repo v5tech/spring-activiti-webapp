@@ -36,6 +36,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class WorkflowTraceService {
+	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -186,8 +187,7 @@ public class WorkflowTraceService {
 			String activitiId = (String) PropertyUtils.getProperty(processInstance, "activityId");
 			logger.debug("current activity id: {}", activitiId);
 
-			currentTask = taskService.createTaskQuery().processInstanceId(processInstance.getId()).taskDefinitionKey(activitiId)
-					.singleResult();
+			currentTask = taskService.createTaskQuery().processInstanceId(processInstance.getId()).taskDefinitionKey(activitiId).singleResult();
 			logger.debug("current task for processInstance: {}", ToStringBuilder.reflectionToString(currentTask));
 
 		} catch (Exception e) {
