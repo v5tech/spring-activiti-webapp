@@ -7,8 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <%@ include file="/common/global.jsp"%>
 <%@ include file="/common/meta.jsp" %>
-<%@ include file="/common/include-base-styles.jsp" %>
-<%@ include file="/common/include-jquery-ui-theme.jsp" %>
 <title>待办任务列表</title>
 </head>
 <body>

@@ -7,25 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <%@ include file="/common/global.jsp"%>
 <%@ include file="/common/meta.jsp" %>
-<%@ include file="/common/include-base-styles.jsp" %>
-<%@ include file="/common/include-jquery-ui-theme.jsp" %>
 <title>请假办理</title>
 <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
-<link href="${ctx }/js/common/plugins/jui/extends/timepicker/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
-<script src="${ctx }/js/common/jquery-1.7.1.js" type="text/javascript"></script>
-<script src="${ctx }/js/common/plugins/jui/jquery-ui.min.js" type="text/javascript"></script>
-<script src="${ctx }/js/common/plugins/jui/extends/timepicker/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
-<script src="${ctx }/js/common/plugins/jui/extends/i18n/jquery-ui-date_time-picker-zh-CN.js" type="text/javascript"></script>
+<script src="${ctx }/js/jquery-1.7.1.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function() {
-	$('#startTime,#endTime').datetimepicker({
-        stepMinute: 5
-    });
-	
-	$('#realityStartTime,#realityEndTime').datetimepicker({
-        stepMinute: 5
-    });
-	
 	//显示当前节点对应的表单信息
 	$('#${activityId }').css("display","inline");
 });

@@ -6,22 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <%@ include file="/common/global.jsp"%>
 <%@ include file="/common/meta.jsp" %>
-<%@ include file="/common/include-base-styles.jsp" %>
-<%@ include file="/common/include-jquery-ui-theme.jsp" %>
 <title>请假申请</title>
 <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
-<link href="${ctx }/js/common/plugins/jui/extends/timepicker/jquery-ui-timepicker-addon.css" type="text/css" rel="stylesheet" />
-<script src="${ctx }/js/common/jquery-1.7.1.js" type="text/javascript"></script>
-<script src="${ctx }/js/common/plugins/jui/jquery-ui.min.js" type="text/javascript"></script>
-<script src="${ctx }/js/common/plugins/jui/extends/timepicker/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
-<script src="${ctx }/js/common/plugins/jui/extends/i18n/jquery-ui-date_time-picker-zh-CN.js" type="text/javascript"></script>
-<script type="text/javascript">
-$(function() {
-	$('#startTime,#endTime').datetimepicker({
-        stepMinute: 5
-    });
-});
-</script>
+<script src="${ctx }/js/jquery-1.7.1.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript" src="${ctx }/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 <h1>填写请假单</h1>
@@ -44,11 +32,11 @@ $(function() {
 		</tr>
 		<tr>
 			<td align="right">开始时间：</td>
-			<td><input type="text" id="startTime" name="startTime"/></td>
+			<td><input type="text" id="startTime" name="startTime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/></td>
 		</tr>
 		<tr>
 			<td align="right">结束时间：</td>
-			<td><input type="text" id="endTime" name="endTime" /></td>
+			<td><input type="text" id="endTime" name="endTime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/></td>
 		</tr>
 		<tr>
 			<td align="right">请假原因：</td>

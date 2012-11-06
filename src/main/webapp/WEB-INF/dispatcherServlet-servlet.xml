@@ -32,6 +32,8 @@
 	<mvc:resources location="/js/" mapping="/js/**"/>
 	<mvc:resources location="/style/" mapping="/style/**"/>
 	<mvc:resources location="/upload/" mapping="/upload/**"/>
+	<mvc:resources location="/common/" mapping="/common/**"/>
+	<mvc:resources location="/My97DatePicker/" mapping="/My97DatePicker/**"/>
 	
 	<!-- jsp视图 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
