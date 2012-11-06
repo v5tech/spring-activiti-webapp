@@ -28,9 +28,11 @@ import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.web.simple.webapp.service.WorkflowTraceService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +47,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping(value="/workflow")
 public class WorkFlowController {
+	
+	@Autowired
+	private WorkflowTraceService traceService;
 	
 	@SuppressWarnings("unused")
 	@Resource(name="identityService")
@@ -303,6 +308,22 @@ public class WorkFlowController {
 		}
 		return activityImageInfo;
 	}
+	
+	
+	
+	/**
+	 * 输出跟踪流程信息
+	 * @param processInstanceId 流程实例id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/process/{pid}/trace")
+	@ResponseBody
+	public List<Map<String, Object>> traceProcess(@PathVariable("pid") String processInstanceId) throws Exception {
+		List<Map<String, Object>> activityInfos = traceService.traceProcess(processInstanceId);
+		return activityInfos;
+	}
+	
 	
 	
 }

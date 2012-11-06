@@ -56,16 +56,18 @@ public class WorkflowTraceService {
 	 * @return	封装了各种节点信息
 	 */
 	public List<Map<String, Object>> traceProcess(String processInstanceId) throws Exception {
+		//根据流程实例获取流程节点
 		Execution execution = runtimeService.createExecutionQuery().executionId(processInstanceId).singleResult();//执行实例
 		Object property = PropertyUtils.getProperty(execution, "activityId");
 		String activityId = "";
 		if (property != null) {
 			activityId = property.toString();
 		}
-		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId)
-				.singleResult();
-		ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) ((RepositoryServiceImpl) repositoryService)
-				.getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
+		//查询流程实例
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+		//根据流程定义id查询流程定义
+		ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) ((RepositoryServiceImpl) repositoryService).getDeployedProcessDefinition(processInstance.getProcessDefinitionId());
+		//获取该流程定义的所有节点
 		List<ActivityImpl> activitiList = processDefinition.getActivities();//获得当前任务的所有节点
 
 		List<Map<String, Object>> activityInfos = new ArrayList<Map<String, Object>>();
@@ -74,7 +76,7 @@ public class WorkflowTraceService {
 			boolean currentActiviti = false;
 			String id = activity.getId();
 
-			// 当前节点
+			// 判断是否是当前节点
 			if (id.equals(activityId)) {
 				currentActiviti = true;
 			}
