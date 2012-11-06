@@ -7,8 +7,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>流程图跟踪</title>
-        <link rel="stylesheet" href="${ctx }/style/css/blueprint/screen.css" type="text/css" media="screen, projection">
-		<link rel="stylesheet" href="${ctx }/style/css/blueprint/print.css" type="text/css" media="print"> 
+        <link rel="stylesheet" href="${ctx }/style/blueprint/screen.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="${ctx }/style/blueprint/print.css" type="text/css" media="print"> 
         <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
 		<link href="${ctx }/js/qtip/jquery.qtip.min.css" type="text/css" rel="stylesheet">
 		<script src="${ctx }/js/jquery-1.7.1.js" type="text/javascript"></script>
