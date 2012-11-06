@@ -7,7 +7,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>用户管理</title>
-<link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 <form:form action="${ctx }/usermap"  method="post">
