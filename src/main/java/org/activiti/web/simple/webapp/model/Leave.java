@@ -30,18 +30,19 @@ public class Leave implements Serializable{
 	private String processInstanceId;
 	private String userId;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date startTime;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date endTime;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date realityStartTime;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date realityEndTime;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date applyTime;
 	
 	private String leaveType;

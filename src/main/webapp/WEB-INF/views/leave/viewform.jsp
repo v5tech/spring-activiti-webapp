@@ -10,6 +10,7 @@
 <title>请假办理</title>
 <link href="${ctx }/style/style.css" type="text/css" rel="stylesheet">
 <script src="${ctx }/js/jquery-1.7.1.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript" src="${ctx }/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript">
 $(function() {
 	//显示当前节点对应的表单信息
@@ -217,13 +218,13 @@ function reportBack(){
 		<tr>
 			<td align="right">开始时间：</td>
 			<td>
-				<input type="text" id="startTime" name="startTime" value="<fmt:formatDate value="${leave.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+				<input type="text" id="startTime" name="startTime" value="<fmt:formatDate value="${leave.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/>" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="right">结束时间：</td>
 			<td>
-				<input type="text" id="endTime" name="endTime" value="<fmt:formatDate value="${leave.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+				<input type="text" id="endTime" name="endTime" value="<fmt:formatDate value="${leave.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/>" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
 			</td>
 		</tr>
 		<tr>
@@ -377,13 +378,13 @@ function reportBack(){
 		<tr>
 			<td align="right">实际开始时间：</td>
 			<td>
-				<input type="text" id="realityStartTime" name="realityStartTime"/>
+				<input type="text" id="realityStartTime" name="realityStartTime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
 			</td>
 		</tr>
 		<tr>
 			<td align="right">实际结束时间：</td>
 			<td>
-				<input type="text" id="realityEndTime" name="realityEndTime"/>
+				<input type="text" id="realityEndTime" name="realityEndTime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
 			</td>
 		</tr>
 		<tr>
