@@ -170,7 +170,7 @@ public class WorkflowTraceService {
 		String assignee = currentTask.getAssignee();
 		if (assignee != null) {
 			User assigneeUser = identityService.createUserQuery().userId(assignee).singleResult();
-			String userInfo = assigneeUser.getFirstName() + " " + assigneeUser.getLastName();
+			String userInfo = assigneeUser.getLastName() + " " + assigneeUser.getFirstName();
 			vars.put("当前处理人", userInfo);
 		}
 	}
