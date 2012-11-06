@@ -15,12 +15,17 @@
 		<script type="text/javascript" src="${ctx }/js/qtip/jquery.qtip.pack.js"></script>
 		<script type="text/javascript" src="${ctx }/js/html/jquery.outerhtml.js"></script>
         <script type="text/javascript">
+        	<%--
+        	只显示流程图，不显示各节点详细信息的实现方法
         	var url='${ctx }/workflow/process/${executionId}/trace/${processInstanceId}';
         	$.post(url,function(data){
 				var dt=eval(data);
 				var viv="<img alt='跟踪工作流' src='${ctx }/workflow/view/${processInstanceId}' style='position:absolute; left:0px; top:0px;'><div style='position: absolute;border: 2px solid red;left: "+(dt.x-1)+"px;top: "+(dt.y-1)+"px;width: "+(dt.width-2)+"px;height: "+(dt.height-2)+"px;' class='ui-corner-all-12'></div>";
 				$('body').append(viv);
-				
+        	});
+        	--%>
+        	<%--显示流程图,并输出各节点的信息--%>
+        	$(function(){
         		//流程节点详细信息
             	var traceUrl="${ctx }/workflow/process/${processInstanceId}/trace";
             	$.getJSON(traceUrl,function(infos){
@@ -38,7 +43,7 @@
                             top: (v.y - 1),
                             width: (v.width - 2),
                             height: (v.height - 2)
-                        })
+                        });
                         if (v.currentActiviti) {
                             $positionDiv.addClass('ui-corner-all-12').css({
                                 border: '2px solid red'
@@ -48,8 +53,12 @@
                         varsArray[varsArray.length] = v.vars;
                     });
                     
+                    //流程图地址
+                    var image="<img alt='跟踪工作流' src='${ctx }/workflow/view/${processInstanceId}' style='position:absolute; left:0px; top:0px;'>";
+                    
                     //追加到body
-                    $("body").append(positionHtml);
+                    $("body").append(image).append(positionHtml);
+                    
                     
                     // 设置每个节点的data
                     $('.activiyAttr').each(function(i, v) {
@@ -78,11 +87,7 @@
                     });
                     // end qtip
             	});
-				
-				
-				
         	});
-        	
         </script>
     </head>
     <body>
