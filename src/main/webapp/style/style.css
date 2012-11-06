@@ -4,6 +4,11 @@ a{
 	cursor: pointer;	
 }
 
+td.label {
+    text-align: right;
+    font-weight: bold;
+}
+
 
 .ui-corner-all-12, .ui-corner-top-12, .ui-corner-left-12, .ui-corner-tl-12 {
     -moz-border-radius-topleft: 12px;
