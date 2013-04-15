@@ -1,0 +1,56 @@
+package org.activiti.web.simple.webapp.model.account;
+
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="ACT_ID_GROUP")
+public class Group {
+	
+	private String id;
+	private String name;
+	private String type;
+	private List<User> actIdUsers;
+	
+	@Id
+	@Column(name="ID_")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	@Column(name="NAME_")
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Column(name="TYPE_")
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	@ManyToMany(mappedBy="actIdGroups")
+	public List<User> getActIdUsers() {
+		return actIdUsers;
+	}
+	public void setActIdUsers(List<User> actIdUsers) {
+		this.actIdUsers = actIdUsers;
+	}
+	
+	
+	
+}
