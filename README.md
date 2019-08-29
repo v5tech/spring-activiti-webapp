@@ -1,5 +1,7 @@
-##Activiti5.10整合Spring完成请假流程
-####Spring+Activiti+Spring Data JPA
+# Activiti5.10整合Spring完成请假流程
+
+Spring+Activiti+Spring Data JPA
+
 * 流程为:上传流程定义文件+填写请假条(启动工作流)+部门经理审批+人事审批+销假+邮件通知+结束
 * 其中在部门经理和人事审批的时候可以驳回(重新申请节点),该节点用户可自由选择是否继续申请还是选择结束流程并选择是否需要邮件通知
 * 该项目基于maven构建。使用mysql数据库。
